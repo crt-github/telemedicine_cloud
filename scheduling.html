@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scheduling | TeleMed Cloud</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <a href="index.html" class="logo" style="margin-bottom: 1rem;">
+                <i class="fa-solid fa-heart-pulse" style="color: var(--secondary);"></i>
+                TeleMed
+            </a>
+
+            <ul class="sidebar-nav">
+                <li><a href="dashboard.html"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
+                <li><a href="scheduling.html" class="active"><i class="fa-regular fa-calendar-check"></i>
+                        Appointments</a></li>
+                <li><a href="video-call.html"><i class="fa-solid fa-video"></i> Video Consult</a></li>
+                <li><a href="medical-forms.html"><i class="fa-solid fa-file-medical"></i> Patient Records</a></li>
+                <li style="margin-top: auto;"><a href="login.html"><i class="fa-solid fa-right-from-bracket"></i>
+                        Logout</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <header style="margin-bottom: 2rem;">
+                <h2 style="font-size: 1.75rem;">Appointment Scheduling</h2>
+            </header>
+
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
+                <div class="table-container">
+                    <div style="padding: 1.5rem; border-bottom: 1px solid var(--glass-border);">
+                        <h3 style="font-size: 1.25rem;">Calendar</h3>
+                        <!-- Placeholder for a complex calendar UI -->
+                        <div
+                            style="background: rgba(255,255,255,0.05); height: 400px; margin-top: 1rem; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--text-muted);">
+                            [Interactive Calendar Component Placeholder]
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    style="background: var(--surface); padding: 1.5rem; border-radius: 16px; border: 1px solid var(--glass-border);">
+                    <h3 style="margin-bottom: 1.5rem;">New Appointment</h3>
+                    <form>
+                        <div class="form-group">
+                            <label class="form-label">Patient Name</label>
+                            <input type="text" class="form-input" placeholder="Search patient...">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Date</label>
+                            <input type="date" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Time</label>
+                            <input type="time" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Type</label>
+                            <select class="form-select">
+                                <option>General Check-up</option>
+                                <option>Specialist Consult</option>
+                                <option>Follow-up</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Book Slot</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+</body>
+
+</html>

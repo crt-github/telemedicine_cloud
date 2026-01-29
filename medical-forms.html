@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Records | TeleMed Cloud</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <a href="index.html" class="logo" style="margin-bottom: 1rem;">
+                <i class="fa-solid fa-heart-pulse" style="color: var(--secondary);"></i>
+                TeleMed
+            </a>
+
+            <ul class="sidebar-nav">
+                <li><a href="dashboard.html"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
+                <li><a href="scheduling.html"><i class="fa-regular fa-calendar-check"></i> Appointments</a></li>
+                <li><a href="video-call.html"><i class="fa-solid fa-video"></i> Video Consult</a></li>
+                <li><a href="medical-forms.html" class="active"><i class="fa-solid fa-file-medical"></i> Patient
+                        Records</a></li>
+                <li style="margin-top: auto;"><a href="login.html"><i class="fa-solid fa-right-from-bracket"></i>
+                        Logout</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <header style="margin-bottom: 2rem;">
+                <h2 style="font-size: 1.75rem;">Patient Intake Form</h2>
+            </header>
+
+            <div class="table-container" style="padding: 2.5rem; max-width: 800px;">
+                <form>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                        <div class="form-group">
+                            <label class="form-label">First Name</label>
+                            <input type="text" class="form-input" placeholder="John">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Last Name</label>
+                            <input type="text" class="form-input" placeholder="Doe">
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                        <div class="form-group">
+                            <label class="form-label">Date of Birth</label>
+                            <input type="date" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Gender</label>
+                            <select class="form-select">
+                                <option>Male</option>
+                                <option>Female</option>
+                                <option>Other</option>
+                                <option>Prefer not to say</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Allergies</label>
+                        <input type="text" class="form-input" placeholder="Ex: Penicillin, Peanuts">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Current Medications</label>
+                        <textarea class="form-textarea" rows="3" placeholder="List dosage and frequency..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Medical History / Notes</label>
+                        <textarea class="form-textarea" rows="5" placeholder="Detailed history..."></textarea>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                        <button type="submit" class="btn btn-primary">Save Record</button>
+                        <button type="button" class="btn btn-outline">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+</body>
+
+</html>
