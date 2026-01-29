@@ -1,0 +1,23 @@
+{
+    "name": "telemedicine-cloud",
+    "version": "1.0.0",
+    "description": "Telemedicine project with automated audits",
+    "main": "index.html",
+    "scripts": {
+        "audit:accessibility": "pa11y-ci",
+        "audit:security": "npm audit && eslint \"**/*.js\"",
+        "audit:compat": "eslint \"**/*.js\"",
+        "audit:all": "npm run audit:accessibility && npm run audit:security && npm run audit:compat"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@axe-core/cli": "^4.11.0",
+        "eslint": "^9.39.2",
+        "eslint-plugin-compat": "^6.1.0",
+        "eslint-plugin-security": "^3.0.1",
+        "globals": "^17.1.0",
+        "pa11y-ci": "^4.0.1"
+    }
+}

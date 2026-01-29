@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Tools & Resources | TeleMed Cloud</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .tools-section {
+            padding: 120px 0 4rem 0;
+        }
+
+        /* NMR Reader Widget Styles */
+        .nmr-widget {
+            background: #000;
+            border: 2px solid #333;
+            border-radius: 12px;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.2);
+            margin-bottom: 3rem;
+        }
+
+        .nmr-screen {
+            background: #0f172a;
+            border: 1px solid #1e293b;
+            height: 250px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nmr-signal {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            display: flex;
+            align-items: flex-end;
+            gap: 2px;
+        }
+
+        .signal-bar {
+            flex: 1;
+            background: var(--secondary);
+            opacity: 0.7;
+            transition: height 0.1s ease;
+        }
+
+        .nmr-controls {
+            display: flex;
+            gap: 1rem;
+            padding: 0.5rem;
+            background: #1e293b;
+            border-radius: 8px;
+        }
+
+        .control-btn {
+            background: #334155;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .control-btn:hover {
+            background: var(--primary);
+        }
+
+        .control-btn.active {
+            background: var(--accent);
+            animation: pulse-red 1s infinite;
+        }
+
+        @keyframes pulse-red {
+            0% {
+                box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 6px rgba(244, 63, 94, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(244, 63, 94, 0);
+            }
+        }
+
+        /* Resources Grid */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .resource-card {
+            background: var(--surface);
+            border: 1px solid var(--glass-border);
+            padding: 1.5rem;
+            border-radius: 8px;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--secondary);
+        }
+
+        .resource-category {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .resource-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .copy-btn {
+            background: transparent;
+            border: 1px solid var(--text-muted);
+            color: var(--text-muted);
+            padding: 0.25rem 0.5rem;
+            font-size: 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-heart-pulse" style="color: var(--secondary);"></i>
+                TeleMed<span>Cloud</span>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="profile.html">Profile</a></li>
+                    <li><a href="tools.html" class="active">Tools</a></li>
+                    <li><a href="index.html#features">Features</a></li>
+                    <li><a href="index.html#contact" class="btn btn-primary"
+                            style="padding: 0.5rem 1.5rem; color: white;">Get Started</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="tools-section container">
+
+        <!-- NMR Widget -->
+        <h2 style="margin-bottom: 1rem;">NMR Spectrum Analyzer <span
+                style="font-size:0.9rem; font-weight:400; color: var(--secondary);">Web Interface v1.0</span></h2>
+        <div class="nmr-widget">
+            <div class="nmr-screen" id="nmrScreen">
+                <div class="nmr-signal" id="nmrSignal">
+                    <!-- Bars generated by JS -->
+                </div>
+                <div style="position:absolute; top: 10px; right: 10px; color: #0f0; font-size: 0.8rem;">
+                    STATUS: READY<br>
+                    FREQ: 500 MHz
+                </div>
+            </div>
+            <div class="nmr-controls">
+                <button class="control-btn" id="startScanBtn">Start Scan</button>
+                <button class="control-btn" onclick="resetScan()">Reset</button>
+                <button class="control-btn">Export Data</button>
+                <div
+                    style="margin-left:auto; display:flex; align-items:center; gap:10px; color:#aaa; font-size:0.9rem;">
+                    <span>Gain:</span>
+                    <input type="range" min="1" max="100" value="50">
+                </div>
+            </div>
+        </div>
+
+        <!-- Resources Section -->
+        <div class="section-header" style="text-align: left; margin-bottom: 2rem; margin-top: 4rem;">
+            <h2>Knowledge Resources</h2>
+            <p>Curated list of 25 essential medical knowledge transfer resources.</p>
+        </div>
+
+        <div class="resources-grid" id="resourcesGrid">
+            <!-- Populated by JS -->
+        </div>
+
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="logo" style="font-size: 1.2rem;">
+                TeleMed<span>Cloud</span>
+            </div>
+            <div class="social-links">
+                <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="https://github.com/crt-github/telemedicine_cloud" target="_blank"><i
+                        class="fa-brands fa-github"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Inline script for tool-specific logic (or move to main.js if preferred)
+
+        // 1. NMR Simulation
+        const signalContainer = document.getElementById('nmrSignal');
+        const numberOfBars = 60;
+
+        // Init flat bars
+        for (let i = 0; i < numberOfBars; i++) {
+            const bar = document.createElement('div');
+            bar.className = 'signal-bar';
+            bar.style.height = '2px';
+            signalContainer.appendChild(bar);
+        }
+
+        document.getElementById('startScanBtn').addEventListener('click', function () {
+            this.classList.toggle('active');
+            if (this.classList.contains('active')) {
+                this.innerText = 'Scanning...';
+                startSimulation();
+            } else {
+                this.innerText = 'Start Scan';
+                stopSimulation();
+            }
+        });
+
+        let scanInterval;
+        function startSimulation() {
+            scanInterval = setInterval(() => {
+                const bars = document.querySelectorAll('.signal-bar');
+                bars.forEach(bar => {
+                    // Random height simulation
+                    const height = Math.random() * 80 + 5;
+                    // Make some peaks
+                    bar.style.height = height + '%';
+                });
+            }, 100);
+        }
+
+        function stopSimulation() {
+            clearInterval(scanInterval);
+            // Simulate a "result" spectrum with distinct peaks
+            const bars = document.querySelectorAll('.signal-bar');
+            bars.forEach((bar, index) => {
+                // simple predictable peaks
+                if ((index > 10 && index < 15) || (index > 40 && index < 45)) {
+                    bar.style.height = (60 + Math.random() * 30) + '%';
+                } else {
+                    bar.style.height = (5 + Math.random() * 10) + '%';
+                }
+            });
+        }
+
+        function resetScan() {
+            clearInterval(scanInterval);
+            document.getElementById('startScanBtn').classList.remove('active');
+            document.getElementById('startScanBtn').innerText = 'Start Scan';
+            const bars = document.querySelectorAll('.signal-bar');
+            bars.forEach(bar => {
+                bar.style.height = '2px';
+            });
+        }
+
+        // 2. Generate Resources
+        const resources = [
+            { cat: 'Journal', name: 'PubMed Central', desc: 'Free archive of biomedical and life sciences journal literature.' },
+            { cat: 'Database', name: 'ClinicalTrials.gov', desc: 'Registry of significantly supported clinical studies.' },
+            { cat: 'Tool', name: 'MedCalc', desc: 'Medical calculator for complex formulas.' },
+            { cat: 'Knowledge', name: 'UpToDate', desc: 'Evidence-based clinical decision support.' },
+            { cat: 'Journal', name: 'The Lancet', desc: 'International medical journal.' },
+            { cat: 'Database', name: 'OMIM', desc: 'Online Mendelian Inheritance in Man.' },
+            { cat: 'Tool', name: 'Epocrates', desc: 'Point-of-care medical apps.' },
+            { cat: 'Knowledge', name: 'Merck Manuals', desc: 'Standard medical reference tables.' },
+            { cat: 'Education', name: 'Khan Academy Medicine', desc: 'Free educational videos on health.' },
+            { cat: 'Research', name: 'ResearchGate', desc: 'Network for scientists and researchers.' },
+            { cat: 'Database', name: 'DrugBank', desc: 'Comprehensive molecular information on drugs.' },
+            { cat: 'Tool', name: 'Read by QxMD', desc: 'Keep up with new medical and scientific research.' },
+            { cat: 'Journal', name: 'NEJM', desc: 'New England Journal of Medicine.' },
+            { cat: 'News', name: 'Medscape', desc: 'Medical news and education.' },
+            { cat: 'Database', name: 'Cochrane Library', desc: 'Collection of databases in medicine.' },
+            { cat: 'Tool', name: 'Doximity', desc: 'Professional network for physicians.' },
+            { cat: 'Education', name: 'Osmosis', desc: 'Visual learning platform for healthcare.' },
+            { cat: 'Journal', name: 'BMJ', desc: 'British Medical Journal.' },
+            { cat: 'Search', name: 'Google Scholar', desc: 'Broadly search for scholarly literature.' },
+            { cat: 'Database', name: 'ChemSpider', desc: 'Structure-centric community for chemists.' },
+            { cat: 'Tool', name: 'MDCalc', desc: 'Clinical calculators & algorithms.' },
+            { cat: 'Knowledge', name: 'CDC', desc: 'Centers for Disease Control and Prevention.' },
+            { cat: 'Database', name: 'WHO Data', desc: 'Global Health Observatory data.' },
+            { cat: 'Tool', name: 'Figure 1', desc: 'Case sharing platform for healthcare pros.' },
+            { cat: 'News', name: 'Medical News Today', desc: 'Market leader for medical news.' }
+        ];
+
+        const grid = document.getElementById('resourcesGrid');
+        resources.forEach(res => {
+            const card = document.createElement('div');
+            card.className = 'resource-card';
+            card.innerHTML = `
+                <div class="resource-category">${res.cat}</div>
+                <h3>${res.name}</h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">${res.desc}</p>
+                <a href="#" style="color: var(--primary); font-size: 0.9rem; text-decoration: none;">Access Resource &rarr;</a>
+            `;
+            grid.appendChild(card);
+        });
+
+    </script>
+</body>
+
+</html>
