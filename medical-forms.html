@@ -31,12 +31,14 @@
 
         <main class="main-content">
             <header style="margin-bottom: 2rem;">
-                <h2 style="font-size: 1.75rem;">Patient Intake Form</h2>
+                <h2 style="font-size: 1.75rem;">Patient Intake Form (Comprehensive)</h2>
             </header>
 
-            <div class="table-container" style="padding: 2.5rem; max-width: 800px;">
+            <div class="table-container" style="padding: 2.5rem; max-width: 900px;">
                 <form>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                    <!-- --- Personal Information --- -->
+                    <h3 style="margin-bottom: 1.5rem; color: var(--secondary);">1. Personal Information</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
                         <div class="form-group">
                             <label class="form-label">First Name</label>
                             <input type="text" class="form-input" placeholder="John">
@@ -47,7 +49,7 @@
                         </div>
                     </div>
 
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
                         <div class="form-group">
                             <label class="form-label">Date of Birth</label>
                             <input type="date" class="form-input">
@@ -58,8 +60,35 @@
                                 <option>Male</option>
                                 <option>Female</option>
                                 <option>Other</option>
-                                <option>Prefer not to say</option>
                             </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Blood Type</label>
+                            <select class="form-select">
+                                <option>A+</option>
+                                <option>A-</option>
+                                <option>B+</option>
+                                <option>B-</option>
+                                <option>AB+</option>
+                                <option>AB-</option>
+                                <option>O+</option>
+                                <option>O-</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="section-divider"></div>
+
+                    <!-- --- Vitals & History --- -->
+                    <h3 style="margin-bottom: 1.5rem; color: var(--secondary);">2. Vitals & Medical History</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                        <div class="form-group">
+                            <label class="form-label">Height (cm)</label>
+                            <input type="number" class="form-input" placeholder="180">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Weight (kg)</label>
+                            <input type="number" class="form-input" placeholder="75">
                         </div>
                     </div>
 
@@ -70,16 +99,53 @@
 
                     <div class="form-group">
                         <label class="form-label">Current Medications</label>
-                        <textarea class="form-textarea" rows="3" placeholder="List dosage and frequency..."></textarea>
+                        <textarea class="form-textarea" rows="2" placeholder="List dosage and frequency..."></textarea>
                     </div>
 
-                    <div class="form-group">
-                        <label class="form-label">Medical History / Notes</label>
-                        <textarea class="form-textarea" rows="5" placeholder="Detailed history..."></textarea>
+                    <div class="section-divider"></div>
+
+                    <!-- --- Imaging & Media --- -->
+                    <h3 style="margin-bottom: 1.5rem; color: var(--secondary);">3. Medical Imaging & Lab Results</h3>
+
+                    <div class="upload-zone">
+                        <i class="fa-solid fa-cloud-arrow-up"
+                            style="font-size: 3rem; color: var(--primary); margin-bottom: 1rem;"></i>
+                        <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">Drag & drop CT/MRI scans here</p>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">DICOM, JPG, PNG supported (Max 50MB)</p>
                     </div>
 
-                    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
-                        <button type="submit" class="btn btn-primary">Save Record</button>
+                    <div class="media-grid">
+                        <!-- Media Item 1 -->
+                        <div class="media-item">
+                            <img src="assets/ct_scan.png" alt="CT Scan Brain" class="media-thumbnail">
+                            <div class="media-info">
+                                <div style="font-weight: 600; margin-bottom: 0.25rem;">CT Brain Scan</div>
+                                <div style="font-size: 0.8rem; color: var(--text-muted);">2023-10-27 • Dr. House</div>
+                            </div>
+                        </div>
+
+                        <!-- Media Item 2 -->
+                        <div class="media-item">
+                            <img src="assets/mri_spine.png" alt="MRI Spine" class="media-thumbnail">
+                            <div class="media-info">
+                                <div style="font-weight: 600; margin-bottom: 0.25rem;">MRI Lumbar Spine</div>
+                                <div style="font-size: 0.8rem; color: var(--text-muted);">2023-11-15 • Radiology Dept
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Media Item 3 (Placeholder for Lab) -->
+                        <div class="media-item"
+                            style="display: flex; align-items: center; justify-content: center; flex-direction: column; height: 236px;">
+                            <i class="fa-solid fa-file-pdf"
+                                style="font-size: 3rem; color: var(--accent); margin-bottom: 1rem;"></i>
+                            <div style="font-weight: 600;">Blood Work.pdf</div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted);">2023-12-01</div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem; margin-top: 3rem;">
+                        <button type="submit" class="btn btn-primary">Save Complete Record</button>
                         <button type="button" class="btn btn-outline">Cancel</button>
                     </div>
                 </form>
@@ -87,6 +153,7 @@
         </main>
     </div>
 
+    <script src="js/protect.js"></script>
 </body>
 
 </html>

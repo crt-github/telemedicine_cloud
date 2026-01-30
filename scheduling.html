@@ -31,24 +31,25 @@
 
         <main class="main-content">
             <header style="margin-bottom: 2rem;">
-                <h2 style="font-size: 1.75rem;">Appointment Scheduling</h2>
+                <h2 style="font-size: 1.75rem;">Appointment Management</h2>
             </header>
 
             <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
-                <div class="table-container">
-                    <div style="padding: 1.5rem; border-bottom: 1px solid var(--glass-border);">
-                        <h3 style="font-size: 1.25rem;">Calendar</h3>
-                        <!-- Placeholder for a complex calendar UI -->
-                        <div
-                            style="background: rgba(255,255,255,0.05); height: 400px; margin-top: 1rem; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--text-muted);">
-                            [Interactive Calendar Component Placeholder]
-                        </div>
+                <div class="table-container" style="background: transparent; border: none; overflow: visible;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h3 style="font-size: 1.25rem;">Upcoming Appointments</h3>
+                        <div style="color: var(--text-muted); font-size: 0.9rem;">Click card to add to calendar</div>
+                    </div>
+
+                    <div id="appointment-list">
+                        <!-- Appointments injected via JS -->
                     </div>
                 </div>
 
                 <div
-                    style="background: var(--surface); padding: 1.5rem; border-radius: 16px; border: 1px solid var(--glass-border);">
-                    <h3 style="margin-bottom: 1.5rem;">New Appointment</h3>
+                    style="background: var(--surface); padding: 1.5rem; border-radius: 16px; border: 1px solid var(--glass-border); align-self: start; position: sticky; top: 2rem;">
+                    <h3 style="margin-bottom: 1.5rem;">Quick Book</h3>
                     <form>
                         <div class="form-group">
                             <label class="form-label">Patient Name</label>
@@ -70,13 +71,100 @@
                                 <option>Follow-up</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary" style="width: 100%;">Book Slot</button>
+                        <button type="button" class="btn btn-primary" style="width: 100%;">Book & Notify</button>
                     </form>
                 </div>
             </div>
         </main>
     </div>
 
+    <script src="js/protect.js"></script>
+    <script>
+        const appointments = [
+            {
+                id: 1,
+                patient: 'Sarah Johnson',
+                initials: 'SJ',
+                date: '2023-11-20',
+                time: '09:00',
+                type: 'General Check-up',
+                email: 'sarah.j@example.com',
+                phone: '1234567890'
+            },
+            {
+                id: 2,
+                patient: 'Michael Chen',
+                initials: 'MC',
+                date: '2023-11-20',
+                time: '10:15',
+                type: 'Follow-up',
+                email: 'm.chen@example.com',
+                phone: '1234567890'
+            },
+            {
+                id: 3,
+                patient: 'Emma Davis',
+                initials: 'ED',
+                date: '2023-11-21',
+                time: '14:30',
+                type: 'Specialist Consult',
+                email: 'emma.d@example.com',
+                phone: '1234567890'
+            }
+        ];
+
+        const list = document.getElementById('appointment-list');
+
+        appointments.forEach(appt => {
+            // Create Google Calendar Link
+            // Format: 20231120T090000Z
+            const start = appt.date.replace(/-/g, '') + 'T' + appt.time.replace(':', '') + '00';
+            const end = appt.date.replace(/-/g, '') + 'T' + (parseInt(appt.time.split(':')[0]) + 1).toString().padStart(2, '0') + appt.time.split(':')[1] + '00';
+
+            const gCalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=Appointment+with+${encodeURIComponent(appt.patient)}&dates=${start}/${end}&details=Telemedicine+Consultation+via+TeleMed+Cloud&location=TeleMed+Cloud+Video+Room`;
+
+            // Social Sharing Links
+            const shareText = `Hello ${appt.patient}, confirming your appointment on ${appt.date} at ${appt.time}. Join here: https://telemed.cloud/room/${appt.id}`;
+            const mailto = `mailto:${appt.email}?subject=Appointment Confirmation&body=${encodeURIComponent(shareText)}`;
+            const sms = `sms:${appt.phone}?body=${encodeURIComponent(shareText)}`; // Mobile only usually
+            const whatsapp = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+            const facebook = `https://www.facebook.com/sharer/sharer.php?u=https://telemed.cloud`; // FB allows URL sharing only usually
+
+            const card = document.createElement('div');
+            card.className = 'appointment-card';
+
+            // Make whole card clickable for Calendar
+            card.onclick = (e) => {
+                // Prevent trigger if clicking share buttons
+                if (e.target.closest('.share-btn')) return;
+                window.open(gCalUrl, '_blank');
+            };
+
+            card.innerHTML = `
+                <div class="appt-header">
+                    <div class="appt-patient">
+                        <div class="appt-avatar">${appt.initials}</div>
+                        <div>
+                            <div style="font-weight: 600; color: white;">${appt.patient}</div>
+                            <div style="font-size: 0.85rem; color: var(--text-muted);">${appt.type}</div>
+                        </div>
+                    </div>
+                    <div class="appt-time">
+                        <i class="fa-regular fa-clock" style="margin-right: 6px; font-size: 0.9rem; color: var(--secondary);"></i>
+                        ${appt.time}
+                    </div>
+                </div>
+                <div class="share-actions">
+                    <a href="${mailto}" class="share-btn email" title="Send Email"><i class="fa-solid fa-envelope"></i></a>
+                    <a href="${sms}" class="share-btn sms" title="Send SMS"><i class="fa-solid fa-comment-sms"></i></a>
+                    <a href="${whatsapp}" class="share-btn whatsapp" target="_blank" title="Share on WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="${facebook}" class="share-btn facebook" target="_blank" title="Share on Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                </div>
+            `;
+
+            list.appendChild(card);
+        });
+    </script>
 </body>
 
 </html>

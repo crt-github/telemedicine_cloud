@@ -1,20 +1,21 @@
-const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
-const xss = require('xss-clean');
 const hpp = require('hpp');
 const cors = require('cors');
 
 const setupSecurity = (app) => {
-    // 1. Set Security Headers
-    app.use(helmet());
+    // 1. Manually Set Security Headers (Replacing Helmet for stability)
+    app.use((req, res, next) => {
+        res.setHeader('X-Content-Type-Options', 'nosniff');
+        res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+        res.setHeader('X-XSS-Protection', '1; mode=block');
+        res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+        next();
+    });
 
-    // 2. Prevent XSS Attacks
-    app.use(xss());
-
-    // 3. Prevent HTTP Parameter Pollution
+    // 2. Prevent HTTP Parameter Pollution
     app.use(hpp());
 
-    // 4. Rate Limiting (DDoS Protection)
+    // 3. Rate Limiting (DDoS Protection)
     const limiter = rateLimit({
         windowMs: 15 * 60 * 1000, // 15 minutes
         max: 100, // Limit each IP to 100 requests per windowMs
@@ -22,12 +23,12 @@ const setupSecurity = (app) => {
     });
     app.use('/api', limiter);
 
-    // 5. CORS (Cross-Origin Resource Sharing) - Strict
+    // 4. CORS (Cross-Origin Resource Sharing) - Permissive for Dev
     const corsOptions = {
-        origin: 'http://localhost:3000', // Update this to your frontend URL in production
+        origin: '*',
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
         allowedHeaders: ['Content-Type', 'Authorization'],
-        credentials: true
+        credentials: false
     };
     app.use(cors(corsOptions));
 };
