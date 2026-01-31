@@ -17,7 +17,7 @@
     <header>
         <div class="container nav-container">
             <a href="#" class="logo">
-                <i class="fa-solid fa-heart-pulse" style="color: var(--secondary);"></i>
+                <i class="fa-solid fa-heart-pulse icon-secondary"></i>
                 TeleMed<span>Cloud</span>
             </a>
             <nav>
@@ -27,7 +27,7 @@
                     <li><a href="tools.html">Tools</a></li>
                     <li><a href="#features">Features</a></li>
                     <li><a href="#solutions">Solutions</a></li>
-                    <li><a href="login.html" class="btn btn-primary" style="padding: 0.5rem 1.5rem; color: white;">Get
+                    <li><a href="login.html" class="btn btn-primary btn-nav-cta">Get
                             Started</a></li>
                 </ul>
             </nav>
@@ -46,7 +46,7 @@
                     adaptable for any scale.</p>
                 <div class="hero-buttons">
                     <a href="login.html" class="btn btn-primary">Start Free Trial</a>
-                    <a href="#" class="btn btn-outline"><i class="fa-solid fa-play" style="margin-right: 8px;"></i>
+                    <a href="#" class="btn btn-outline"><i class="fa-solid fa-play icon-margin-right"></i>
                         Watch Demo</a>
                 </div>
             </div>
@@ -54,7 +54,7 @@
             <div class="hero-visual">
                 <div class="dashboard-card">
                     <div class="card-header">
-                        <div style="font-weight: 600;">Live Consultations</div>
+                        <div class="font-semibold">Live Consultations</div>
                         <div class="pulse-dot"></div>
                     </div>
                     <div class="stat-grid">
@@ -76,20 +76,12 @@
                         </div>
                     </div>
                     <!-- Minimal chart representation -->
-                    <div style="margin-top: 2rem; height: 60px; display: flex; align-items: flex-end; gap: 8px;">
-                        <div
-                            style="flex: 1; background: var(--primary); height: 40%; border-radius: 4px; opacity: 0.4;">
-                        </div>
-                        <div
-                            style="flex: 1; background: var(--primary); height: 60%; border-radius: 4px; opacity: 0.6;">
-                        </div>
-                        <div style="flex: 1; background: var(--secondary); height: 80%; border-radius: 4px;"></div>
-                        <div
-                            style="flex: 1; background: var(--primary); height: 50%; border-radius: 4px; opacity: 0.5;">
-                        </div>
-                        <div
-                            style="flex: 1; background: var(--primary); height: 75%; border-radius: 4px; opacity: 0.7;">
-                        </div>
+                    <div class="chart-container">
+                        <div class="chart-bar"></div>
+                        <div class="chart-bar"></div>
+                        <div class="chart-bar"></div>
+                        <div class="chart-bar"></div>
+                        <div class="chart-bar"></div>
                     </div>
                 </div>
             </div>
@@ -138,17 +130,15 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" style="padding: 6rem 0; text-align: center;">
+    <section id="contact" class="contact-section">
         <div class="container">
-            <h2 style="font-size: 2.5rem; margin-bottom: 2rem;">Ready to Transform Healthcare?</h2>
-            <p
-                style="color: var(--text-muted); margin-bottom: 3rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+            <h2 class="contact-title">Ready to Transform Healthcare?</h2>
+            <p class="contact-subtitle">
                 Join thousands of providers using TeleMed Cloud today.
             </p>
-            <form style="max-width: 500px; margin: 0 auto; display: grid; gap: 1rem;">
-                <input type="email" placeholder="Enter your email"
-                    style="width: 100%; padding: 1rem; border-radius: 8px; border: 1px solid var(--glass-border); background: var(--surface); color: white;">
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Get Started Now</button>
+            <form class="contact-form">
+                <input type="email" placeholder="Enter your email" class="contact-input">
+                <button type="submit" class="btn btn-primary">Get Started Now</button>
             </form>
         </div>
     </section>
@@ -156,19 +146,19 @@
     <!-- Footer -->
     <footer>
         <div class="container footer-content">
-            <div class="logo" style="font-size: 1.2rem;">
+            <div class="logo footer-logo">
                 TeleMed<span>Cloud</span>
             </div>
             <div class="social-links">
-                <a href="#"><i class="fa-brands fa-twitter"></i></a>
-                <a href="#"><i class="fa-brands fa-linkedin"></i></a>
-                <a href="https://github.com/crt-github/telemedicine_cloud" target="_blank"><i
-                        class="fa-brands fa-github"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="https://github.com/crt-github/telemedicine_cloud" target="_blank" rel="noopener noreferrer"
+                    aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
             </div>
         </div>
     </footer>
 
-    <script src="js/main.js"></script>
+    <script src="dist/client/main.js"></script>
 </body>
 
 </html>

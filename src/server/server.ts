@@ -1,12 +1,12 @@
-const express = require('express');
-const dotenv = require('dotenv');
-const setupSecurity = require('./middleware/security');
-const authRoutes = require('./routes/auth');
+import express, { Application, Request, Response } from 'express';
+import dotenv from 'dotenv';
+import setupSecurity from './middleware/security';
+import authRoutes from './routes/auth';
 
 // Load env vars
 dotenv.config();
 
-const app = express();
+const app: Application = express();
 
 // Body parser
 app.use(express.json());
@@ -14,11 +14,16 @@ app.use(express.json());
 // Apply Security Middleware
 setupSecurity(app);
 
+// Serve Static Files (CSS, HTML, Client JS)
+import path from 'path';
+// Assuming server.js is in dist/server/, going up two levels to root
+app.use(express.static(path.join(__dirname, '../../')));
+
 // Routes
 app.use('/api/auth', authRoutes);
 
 // Health Check
-app.get('/health', (req, res) => {
+app.get('/health', (req: Request, res: Response) => {
     res.status(200).json({ status: 'OK', uptime: process.uptime() });
 });
 

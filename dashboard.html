@@ -14,8 +14,8 @@
     <div class="dashboard-layout">
         <!-- Sidebar -->
         <aside class="sidebar">
-            <a href="index.html" class="logo" style="margin-bottom: 1rem;">
-                <i class="fa-solid fa-heart-pulse" style="color: var(--secondary);"></i>
+            <a href="index.html" class="logo mb-1">
+                <i class="fa-solid fa-heart-pulse icon-secondary"></i>
                 TeleMed
             </a>
 
@@ -24,57 +24,67 @@
                 <li><a href="scheduling.html"><i class="fa-regular fa-calendar-check"></i> Appointments</a></li>
                 <li><a href="video-call.html"><i class="fa-solid fa-video"></i> Video Consult</a></li>
                 <li><a href="medical-forms.html"><i class="fa-solid fa-file-medical"></i> Patient Records</a></li>
-                <li style="margin-top: auto;"><a href="login.html"><i class="fa-solid fa-right-from-bracket"></i>
+                <li class="mt-auto"><a href="login.html"><i class="fa-solid fa-right-from-bracket"></i>
                         Logout</a></li>
             </ul>
         </aside>
 
         <!-- Main Content -->
         <main class="main-content">
-            <header
-                style="position: static; padding: 0 0 2rem 0; box-shadow: none; border: none; backdrop-filter: none; background: transparent;">
+            <header class="dashboard-header">
                 <div class="nav-container">
-                    <h2 style="font-size: 1.75rem;" class="user-name-display">Welcome back, Dr. Smith</h2>
-                    <div style="display: flex; gap: 1rem; align-items: center;">
-                        <button class="btn btn-outline"
-                            style="width: 40px; height: 40px; padding: 0; border-radius: 50%;"><i
-                                class="fa-regular fa-bell"></i></button>
-                        <div style="width: 40px; height: 40px; background: var(--gradient-main); border-radius: 50%;">
+                    <div>
+                        <h2 class="user-name-display">Welcome, Dr. Smith</h2>
+                        <span class="text-sm-muted">Cardiology Dept</span>
+                    </div>
+
+                    <!-- Notification & Profile Placeholders -->
+                    <div class="flex-center-gap">
+                        <div class="relative">
+                            <button class="btn btn-outline btn-icon-circle" aria-label="Notifications">
+                                <i class="fa-regular fa-bell"></i>
+                            </button>
+                            <span class="notification-badge">3</span>
+                        </div>
+
+                        <div class="profile-icon-placeholder">
                         </div>
                     </div>
                 </div>
             </header>
 
-            <div class="stat-grid" style="grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-bottom: 2rem;">
-                <div class="dashboard-card" style="padding: 1.5rem; transform: none; box-shadow: none;">
+            <!-- RSS Feed Placeholder (Mobile/Tablet visible or Desktop Side) -->
+            <div class="rss-feed-placeholder">
+                <i class="fa-solid fa-rss icon-margin-right"></i> Swiss Medical Feed Loading...
+            </div>
+
+            <div class="stat-grid">
+                <div class="dashboard-card">
                     <div class="stat-label">Today's Patients</div>
                     <div class="stat-value">12</div>
-                    <div style="color: #10b981; font-size: 0.8rem; margin-top: 0.5rem;"><i
-                            class="fa-solid fa-arrow-trend-up"></i> +2 from yesterday</div>
+                    <div class="stat-trend positive"><i class="fa-solid fa-arrow-trend-up"></i> +2 from yesterday</div>
                 </div>
-                <div class="dashboard-card" style="padding: 1.5rem; transform: none; box-shadow: none;">
+                <div class="dashboard-card">
                     <div class="stat-label">Pending Reviews</div>
                     <div class="stat-value">5</div>
-                    <div style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.5rem;">Urgent: 1</div>
+                    <div class="stat-trend neutral">Urgent: 1</div>
                 </div>
-                <div class="dashboard-card" style="padding: 1.5rem; transform: none; box-shadow: none;">
+                <div class="dashboard-card">
                     <div class="stat-label">Next Appt</div>
-                    <div class="stat-value" style="font-size: 1.25rem;">14:30</div>
-                    <div style="color: var(--secondary); font-size: 0.8rem; margin-top: 0.5rem;">Video Call</div>
+                    <div class="stat-value text-lg">14:30</div>
+                    <div class="stat-trend secondary">Video Call</div>
                 </div>
-                <div class="dashboard-card" style="padding: 1.5rem; transform: none; box-shadow: none;">
+                <div class="dashboard-card">
                     <div class="stat-label">Messages</div>
                     <div class="stat-value">3</div>
-                    <div style="color: var(--primary); font-size: 0.8rem; margin-top: 0.5rem;">Unread</div>
+                    <div class="stat-trend primary">Unread</div>
                 </div>
             </div>
 
             <div class="table-container">
-                <div
-                    style="padding: 1.5rem; border-bottom: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center;">
-                    <h3 style="font-size: 1.25rem;">Upcoming Appointments</h3>
-                    <a href="scheduling.html" class="btn btn-outline"
-                        style="font-size: 0.875rem; padding: 0.5rem 1rem;">View All</a>
+                <div class="table-header">
+                    <h3 class="text-xl">Upcoming Appointments</h3>
+                    <a href="scheduling.html" class="btn btn-outline btn-sm">View All</a>
                 </div>
                 <table>
                     <thead>
@@ -90,29 +100,26 @@
                         <tr>
                             <td>Sarah Johnson</td>
                             <td>09:00 AM</td>
-                            <td><span
-                                    style="background: rgba(37, 99, 235, 0.2); color: var(--primary-dark); padding: 4px 8px; border-radius: 4px; font-size: 0.8rem;">Check-up</span>
+                            <td><span class="badge badge-checkup">Check-up</span>
                             </td>
                             <td>Confirmed</td>
-                            <td><a href="#" style="color: var(--secondary);">View</a></td>
+                            <td><a href="#" class="table-action-link">View</a></td>
                         </tr>
                         <tr>
                             <td>Michael Chen</td>
                             <td>10:15 AM</td>
-                            <td><span
-                                    style="background: rgba(6, 182, 212, 0.2); color: var(--secondary); padding: 4px 8px; border-radius: 4px; font-size: 0.8rem;">Follow-up</span>
+                            <td><span class="badge badge-followup">Follow-up</span>
                             </td>
                             <td>Waiting</td>
-                            <td><a href="video-call.html" style="color: var(--secondary);">Join Call</a></td>
+                            <td><a href="video-call.html" class="table-action-link">Join Call</a></td>
                         </tr>
                         <tr>
                             <td>Emma Davis</td>
                             <td>11:30 AM</td>
-                            <td><span
-                                    style="background: rgba(244, 63, 94, 0.2); color: var(--accent); padding: 4px 8px; border-radius: 4px; font-size: 0.8rem;">consultation</span>
+                            <td><span class="badge badge-consult">consultation</span>
                             </td>
                             <td>Confirmed</td>
-                            <td><a href="#" style="color: var(--secondary);">View</a></td>
+                            <td><a href="#" class="table-action-link">View</a></td>
                         </tr>
                     </tbody>
                 </table>
@@ -120,7 +127,7 @@
         </main>
     </div>
 
-    <script src="js/protect.js"></script>
+    <script src="dist/client/protect.js"></script>
 </body>
 
 </html>

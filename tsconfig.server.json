@@ -1,0 +1,16 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "outDir": "./dist/server",
+        "lib": [
+            "es2018"
+        ],
+        "types": [
+            "node"
+        ],
+        "strict": true
+    },
+    "include": [
+        "src/server/**/*"
+    ]
+}

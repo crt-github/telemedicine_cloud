@@ -1,10 +1,11 @@
-const rateLimit = require('express-rate-limit');
-const hpp = require('hpp');
-const cors = require('cors');
+import rateLimit from 'express-rate-limit';
+import hpp from 'hpp';
+import cors from 'cors';
+import { Application, Request, Response, NextFunction } from 'express';
 
-const setupSecurity = (app) => {
+const setupSecurity = (app: Application) => {
     // 1. Manually Set Security Headers (Replacing Helmet for stability)
-    app.use((req, res, next) => {
+    app.use((req: Request, res: Response, next: NextFunction) => {
         res.setHeader('X-Content-Type-Options', 'nosniff');
         res.setHeader('X-Frame-Options', 'SAMEORIGIN');
         res.setHeader('X-XSS-Protection', '1; mode=block');
@@ -33,4 +34,4 @@ const setupSecurity = (app) => {
     app.use(cors(corsOptions));
 };
 
-module.exports = setupSecurity;
+export default setupSecurity;

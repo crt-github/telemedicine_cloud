@@ -12,16 +12,15 @@
 <body>
 
     <div class="auth-container">
-        <div class="hero-bg-glow" style="width: 800px; height: 800px; opacity: 0.1;"></div>
+        <div class="hero-bg-glow"></div>
 
         <div class="auth-card">
-            <div class="logo" style="justify-content: center; margin-bottom: 2rem; color: var(--primary);">
+            <div class="logo">
                 <i class="fa-solid fa-heart-pulse"></i>
-                <span style="color: white;">TeleMed</span>Cloud
+                <span>TeleMed</span>Cloud
             </div>
 
-            <div id="errorMsg"
-                style="display: none; background: rgba(244, 63, 94, 0.1); color: #f43f5e; padding: 0.75rem; border-radius: 8px; margin-bottom: 1rem; font-size: 0.9rem; border: 1px solid rgba(244, 63, 94, 0.3);">
+            <div id="errorMsg" class="auth-error-msg">
             </div>
 
             <form id="loginForm">
@@ -35,23 +34,23 @@
                     <input type="password" id="password" class="form-input" placeholder="••••••••" required>
                 </div>
 
-                <div style="display: flex; justify-content: space-between; margin-bottom: 2rem; font-size: 0.9rem;">
-                    <label style="color: var(--text-muted); cursor: pointer;">
+                <div class="auth-form-footer">
+                    <label class="auth-remember-label">
                         <input type="checkbox" id="rememberMe"> Remember me
                     </label>
-                    <a href="#" style="color: var(--primary); text-decoration: none;">Forgot password?</a>
+                    <a href="#" class="auth-forgot-link">Forgot password?</a>
                 </div>
 
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Sign In</button>
+                <button type="submit" class="btn btn-primary w-full">Sign In</button>
             </form>
 
-            <p style="text-align: center; margin-top: 1.5rem; color: var(--text-muted); font-size: 0.9rem;">
-                Don't have an account? <a href="#" style="color: white; text-decoration: none;">Contact Admin</a>
+            <p class="auth-signup-text">
+                Don't have an account? <a href="#" class="auth-signup-link">Contact Admin</a>
             </p>
         </div>
     </div>
 
-    <script src="js/auth.js"></script>
+    <script src="dist/client/auth.js"></script>
 </body>
 
 </html>

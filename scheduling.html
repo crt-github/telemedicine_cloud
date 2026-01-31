@@ -13,8 +13,8 @@
 
     <div class="dashboard-layout">
         <aside class="sidebar">
-            <a href="index.html" class="logo" style="margin-bottom: 1rem;">
-                <i class="fa-solid fa-heart-pulse" style="color: var(--secondary);"></i>
+            <a href="index.html" class="logo mb-1">
+                <i class="fa-solid fa-heart-pulse icon-secondary"></i>
                 TeleMed
             </a>
 
@@ -24,22 +24,21 @@
                         Appointments</a></li>
                 <li><a href="video-call.html"><i class="fa-solid fa-video"></i> Video Consult</a></li>
                 <li><a href="medical-forms.html"><i class="fa-solid fa-file-medical"></i> Patient Records</a></li>
-                <li style="margin-top: auto;"><a href="login.html"><i class="fa-solid fa-right-from-bracket"></i>
+                <li class="mt-auto"><a href="login.html"><i class="fa-solid fa-right-from-bracket"></i>
                         Logout</a></li>
             </ul>
         </aside>
 
         <main class="main-content">
-            <header style="margin-bottom: 2rem;">
-                <h2 style="font-size: 1.75rem;">Appointment Management</h2>
+            <header class="mb-2">
+                <h2 class="text-2xl">Appointment Management</h2>
             </header>
 
-            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
-                <div class="table-container" style="background: transparent; border: none; overflow: visible;">
-                    <div
-                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                        <h3 style="font-size: 1.25rem;">Upcoming Appointments</h3>
-                        <div style="color: var(--text-muted); font-size: 0.9rem;">Click card to add to calendar</div>
+            <div class="scheduling-grid">
+                <div class="table-container appointment-list-container">
+                    <div class="flex-between-center-mb-1">
+                        <h3 class="text-xl">Upcoming Appointments</h3>
+                        <div class="text-xs-muted">Click card to add to calendar</div>
                     </div>
 
                     <div id="appointment-list">
@@ -47,38 +46,37 @@
                     </div>
                 </div>
 
-                <div
-                    style="background: var(--surface); padding: 1.5rem; border-radius: 16px; border: 1px solid var(--glass-border); align-self: start; position: sticky; top: 2rem;">
-                    <h3 style="margin-bottom: 1.5rem;">Quick Book</h3>
+                <div class="quick-book-card">
+                    <h3 class="mb-1">Quick Book</h3>
                     <form>
                         <div class="form-group">
-                            <label class="form-label">Patient Name</label>
-                            <input type="text" class="form-input" placeholder="Search patient...">
+                            <label class="form-label" for="patient-search">Patient Name</label>
+                            <input type="text" id="patient-search" class="form-input" placeholder="Search patient...">
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Date</label>
-                            <input type="date" class="form-input">
+                            <label class="form-label" for="appt-date">Date</label>
+                            <input type="date" id="appt-date" class="form-input">
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Time</label>
-                            <input type="time" class="form-input">
+                            <label class="form-label" for="appt-time">Time</label>
+                            <input type="time" id="appt-time" class="form-input">
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Type</label>
-                            <select class="form-select">
+                            <label class="form-label" for="appt-type">Type</label>
+                            <select id="appt-type" class="form-select">
                                 <option>General Check-up</option>
                                 <option>Specialist Consult</option>
                                 <option>Follow-up</option>
                             </select>
                         </div>
-                        <button type="button" class="btn btn-primary" style="width: 100%;">Book & Notify</button>
+                        <button type="button" class="btn btn-primary w-full">Book & Notify</button>
                     </form>
                 </div>
             </div>
         </main>
     </div>
 
-    <script src="js/protect.js"></script>
+    <script src="dist/client/protect.js"></script>
     <script>
         const appointments = [
             {

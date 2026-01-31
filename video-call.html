@@ -13,8 +13,8 @@
 
     <div class="dashboard-layout">
         <aside class="sidebar">
-            <a href="index.html" class="logo" style="margin-bottom: 1rem;">
-                <i class="fa-solid fa-heart-pulse" style="color: var(--secondary);"></i>
+            <a href="index.html" class="logo mb-1">
+                <i class="fa-solid fa-heart-pulse icon-secondary"></i>
                 TeleMed
             </a>
 
@@ -23,47 +23,43 @@
                 <li><a href="scheduling.html"><i class="fa-regular fa-calendar-check"></i> Appointments</a></li>
                 <li><a href="video-call.html" class="active"><i class="fa-solid fa-video"></i> Video Consult</a></li>
                 <li><a href="medical-forms.html"><i class="fa-solid fa-file-medical"></i> Patient Records</a></li>
-                <li style="margin-top: auto;"><a href="login.html"><i class="fa-solid fa-right-from-bracket"></i>
+                <li class="mt-auto"><a href="login.html"><i class="fa-solid fa-right-from-bracket"></i>
                         Logout</a></li>
             </ul>
         </aside>
 
         <main class="main-content">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                <h2 style="font-size: 1.75rem;">Consultation Room #42</h2>
-                <span
-                    style="background: rgba(16, 185, 129, 0.2); color: #10b981; padding: 0.5rem 1rem; border-radius: 99px; font-weight: 600; font-size: 0.9rem;">
-                    <i class="fa-solid fa-circle"
-                        style="font-size: 8px; margin-right: 6px; vertical-align: middle;"></i> Connected
+            <div class="video-header">
+                <h2 class="text-2xl">Consultation Room #42</h2>
+                <span class="status-badge-connected">
+                    <i class="fa-solid fa-circle icon-xs"></i> Connected
                 </span>
             </div>
 
             <div class="video-container">
                 <!-- Placeholder for remote video stream -->
-                <div
-                    style="width: 100%; height: 100%; background: #222; display: flex; align-items: center; justify-content: center;">
-                    <i class="fa-solid fa-user" style="font-size: 5rem; color: #444;"></i>
-                    <p style="position: absolute; bottom: 2rem; left: 2rem; font-size: 1.25rem;">Patient: Michael Chen
+                <div class="remote-video-placeholder">
+                    <i class="fa-solid fa-user icon-5xl"></i>
+                    <p class="video-label">Patient: Michael Chen
                     </p>
                 </div>
 
                 <!-- Self view -->
-                <div
-                    style="position: absolute; bottom: 2rem; right: 2rem; width: 240px; height: 135px; background: #333; border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.5);">
-                    <div
-                        style="width: 100%; height: 100%; background: #1a1a1a; display: flex; align-items: center; justify-content: center;">
-                        <i class="fa-solid fa-user-doctor" style="font-size: 2rem; color: #555;"></i>
+                <div class="self-view">
+                    <div class="self-view-inner">
+                        <i class="fa-solid fa-user-doctor icon-2xl"></i>
                     </div>
                 </div>
             </div>
 
             <div class="video-controls">
-                <button class="control-btn"><i class="fa-solid fa-microphone"></i></button>
-                <button class="control-btn"><i class="fa-solid fa-video"></i></button>
-                <button class="control-btn"><i class="fa-solid fa-desktop"></i></button>
-                <button class="control-btn"><i class="fa-solid fa-message"></i></button>
-                <button class="control-btn danger" onclick="window.location.href='dashboard.html'"><i
-                        class="fa-solid fa-phone-slash"></i></button>
+                <button class="control-btn" aria-label="Toggle Microphone"><i
+                        class="fa-solid fa-microphone"></i></button>
+                <button class="control-btn" aria-label="Toggle Camera"><i class="fa-solid fa-video"></i></button>
+                <button class="control-btn" aria-label="Share Screen"><i class="fa-solid fa-desktop"></i></button>
+                <button class="control-btn" aria-label="Chat"><i class="fa-solid fa-message"></i></button>
+                <button class="control-btn danger" onclick="window.location.href='dashboard.html'"
+                    aria-label="End Call"><i class="fa-solid fa-phone-slash"></i></button>
             </div>
         </main>
     </div>

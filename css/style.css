@@ -14,6 +14,9 @@
     --glass: rgba(30, 41, 59, 0.7);
     --glass-border: rgba(255, 255, 255, 0.1);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+    /* Safe Area Variables for Mobile */
+    --safe-top: env(safe-area-inset-top, 20px);
+    --safe-bottom: env(safe-area-inset-bottom, 20px);
 }
 
 * {
@@ -87,6 +90,7 @@ body {
     background: transparent;
     border: 1px solid var(--glass-border);
     color: var(--text-main);
+    -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 }
 
@@ -108,6 +112,7 @@ header {
 
 header.scrolled {
     background: var(--glass);
+    -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--glass-border);
     padding: 1rem 0;
@@ -131,8 +136,8 @@ header.scrolled {
 
 .logo span {
     background: var(--gradient-main);
-    background-clip: text;
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -220,8 +225,8 @@ nav a.active {
 
 .hero-text h1 span {
     background: var(--gradient-main);
-    background-clip: text;
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -386,23 +391,189 @@ footer {
 }
 
 /* Responsive */
+/* --- Responsive Layout (Phase 2 Refinement) --- */
+
+/* Fluid Typography */
+html {
+    font-size: 16px;
+}
+
+h1,
+h2,
+h3,
+.stat-value {
+    font-size: clamp(1.25rem, 2.5vw, 2.5rem);
+    /* Scales between 20px and 40px */
+}
+
+/* Dashboard Refactored Classes */
+.dashboard-header {
+    position: sticky;
+    top: 0;
+    z-index: 900;
+    padding: 1.5rem 1rem 2rem 1rem;
+    /* Added horizontal padding for safety */
+    background: var(--background);
+    width: 100%;
+}
+
+.nav-container {
+    display: flex;
+    flex-wrap: wrap;
+    /* Ensure wrapping */
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.stat-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 2rem;
+}
+
+.dashboard-card {
+    /* Existing base styles + specific overrides */
+    padding: 1.5rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1 1 300px;
+    /* Allow growing/shrinking with basis */
+    min-width: 0;
+    /* Safety for flex items */
+}
+
+/* Notification Badge */
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: var(--accent);
+    color: white;
+    font-size: 0.7rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: 99px;
+    border: 2px solid var(--surface);
+    font-weight: bold;
+}
+
+/* RSS Placeholders */
+.rss-feed-placeholder {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    border: 1px dashed var(--glass-border);
+    border-radius: 12px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+/* --- Breakpoints Strategy --- */
+
+/* Laptop (Compact) */
+/* Laptop (Compact) - Removed strict 220px override to favor 250px sanctuary or let it be fluid if needed, 
+   but user requested 250px fixed sanctuary. Default is 250px. 
+   So we remove the 1200px override if we want 250px. 
+   However, staying with 220px is close enough, but let's strictly follow '250px 1fr' request if meant for all non-mobile.
+   Let's just Comment out the override to revert to default 250px. */
+/* @media (max-width: 1200px) { ... } Removed */
+
+/* Tablet / Split Screen (Mid-Size) - Sidebar logic removed to maintain 250px sanctuary */
+
+/* Mobile (Bottom Bar) */
 @media (max-width: 768px) {
-    .hero-content {
+    .dashboard-layout {
+        display: block;
         grid-template-columns: 1fr;
-        text-align: center;
+        padding-bottom: 80px;
     }
 
-    .hero-text h1 {
-        font-size: 3rem;
+    .sidebar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 70px;
+        z-index: 1000;
+        padding: 0;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        border-right: none;
+        border-top: 1px solid var(--glass-border);
+        background: rgba(30, 41, 59, 0.98);
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        padding-bottom: var(--safe-bottom);
     }
 
-    .hero-buttons {
-        justify-content: center;
-    }
-
-    .hero-visual {
+    .sidebar .logo {
         display: none;
-        /* Hide complex visual on mobile for simplicity, or adjust */
+    }
+
+    .sidebar-nav {
+        margin: 0;
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-around;
+        gap: 0;
+    }
+
+    .sidebar-nav li {
+        margin: 0;
+    }
+
+    .sidebar-nav a {
+        flex-direction: column;
+        padding: 0.5rem;
+        font-size: 0.7rem;
+        background: transparent !important;
+        gap: 4px;
+    }
+
+    .sidebar-nav a span {
+        display: block;
+        /* Show short labels if needed, or keep hidden */
+        font-size: 0.7rem;
+    }
+
+    .sidebar-nav a i {
+        font-size: 1.25rem;
+    }
+
+    /* Main Content */
+    .main-content {
+        padding: 1.5rem;
+        overflow-x: hidden;
+        /* Prevent body scroll */
+        width: 100%;
+    }
+
+    .stat-grid {
+        grid-template-columns: 1fr;
+        /* Stack vertically on mobile */
+    }
+
+    .table-container {
+        overflow-x: auto;
+        /* Allow internal scroll only */
+        width: 100%;
+        display: block;
+    }
+
+    /* Force text wrapping in flexible environments */
+    th,
+    td,
+    .dashboard-card,
+    .stat-label,
+    .stat-value {
+        word-break: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
     }
 }
 
@@ -741,4 +912,1025 @@ tr:hover {
 .share-btn.facebook:hover {
     background: #1877F2;
     border-color: #1877F2;
+}
+
+/* Login Page Styles */
+.hero-bg-glow {
+    width: 800px;
+    height: 800px;
+    opacity: 0.1;
+}
+
+.auth-card .logo {
+    justify-content: center;
+    margin-bottom: 2rem;
+    color: var(--primary);
+}
+
+.auth-card .logo span {
+    color: white;
+}
+
+.auth-error-msg {
+    display: none;
+    background: rgba(244, 63, 94, 0.1);
+    color: #f43f5e;
+    padding: 0.75rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    border: 1px solid rgba(244, 63, 94, 0.3);
+}
+
+.auth-form-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    font-size: 0.9rem;
+}
+
+.auth-remember-label {
+    color: var(--text-muted);
+    cursor: pointer;
+}
+
+.auth-forgot-link {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.auth-signup-text {
+    text-align: center;
+    margin-top: 1.5rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.auth-signup-link {
+    color: white;
+    text-decoration: none;
+}
+
+/* Profile Page Styles */
+body.profile-page {
+    --background: #0f172a;
+    --surface: #1e293b;
+    --text-main: #f1f5f9;
+    --text-muted: #94a3b8;
+    --glass: rgba(30, 41, 59, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+}
+
+.profile-header {
+    padding-top: 120px;
+    padding-bottom: 4rem;
+    text-align: center;
+    background: linear-gradient(to bottom, #e0f2fe, var(--background));
+}
+
+.profile-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 4px solid white;
+    box-shadow: var(--shadow-lg);
+    margin-bottom: 1.5rem;
+    object-fit: cover;
+    background-color: var(--primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    color: white;
+}
+
+.profile-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.bio-card {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: var(--shadow-lg);
+    margin-bottom: 2rem;
+    border: 1px solid var(--glass-border);
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.btn-header-cta {
+    padding: 0.5rem 1.5rem;
+    color: white;
+}
+
+.skill-tag {
+    background: #f1f5f9;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 500;
+    color: var(--primary-dark);
+    border: 1px solid var(--glass-border);
+    transition: all 0.3s ease;
+}
+
+.skill-tag:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-2px);
+}
+
+body.profile-page nav a {
+    color: var(--text-muted);
+}
+
+body.profile-page nav a:hover,
+body.profile-page nav a.active {
+    color: var(--primary);
+}
+
+body.profile-page .logo {
+    color: var(--primary-dark);
+}
+
+.icon-secondary {
+    color: var(--secondary);
+}
+
+.btn-nav-cta {
+    padding: 0.5rem 1.5rem;
+    color: white;
+}
+
+.profile-subheader {
+    font-size: 1.25rem;
+    color: var(--text-muted);
+}
+
+.profile-actions {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.icon-margin-right {
+    margin-right: 8px;
+}
+
+.btn-linkedin {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.section-title {
+    margin-bottom: 1rem;
+    color: var(--primary-dark);
+}
+
+.mb-1 {
+    margin-bottom: 1rem;
+}
+
+.current-focus-card {
+    margin-top: 2rem;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: white;
+}
+
+.current-focus-title {
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.current-focus-text {
+    opacity: 0.9;
+}
+
+/* Utilities */
+.mt-auto {
+    margin-top: auto;
+}
+
+.text-sm-muted {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.flex-center-gap {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.relative {
+    position: relative;
+}
+
+.font-semibold {
+    font-weight: 600;
+}
+
+.text-lg {
+    font-size: 1.25rem;
+}
+
+.text-xl {
+    font-size: 1.25rem;
+}
+
+/* Dashboard Specific */
+.btn-icon-circle {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-icon-placeholder {
+    width: 44px;
+    height: 44px;
+    background: var(--gradient-main);
+    border-radius: 50%;
+    border: 2px solid var(--surface);
+    box-shadow: 0 0 0 2px var(--glass-border);
+}
+
+.stat-trend {
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+}
+
+.stat-trend.positive {
+    color: #10b981;
+}
+
+.stat-trend.neutral {
+    color: var(--text-muted);
+}
+
+.stat-trend.secondary {
+    color: var(--secondary);
+}
+
+.stat-trend.primary {
+    color: var(--primary);
+}
+
+.table-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--glass-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-sm {
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+}
+
+.badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+.badge-checkup {
+    background: rgba(37, 99, 235, 0.2);
+    color: var(--primary-dark);
+}
+
+.badge-followup {
+    background: rgba(6, 182, 212, 0.2);
+    color: var(--secondary);
+}
+
+.badge-consult {
+    background: rgba(244, 63, 94, 0.2);
+    color: var(--accent);
+}
+
+.table-action-link {
+    color: var(--secondary);
+}
+
+/* Index Specific */
+.chart-container {
+    margin-top: 2rem;
+    height: 60px;
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.chart-bar {
+    flex: 1;
+    border-radius: 4px;
+}
+
+.contact-section {
+    padding: 6rem 0;
+    text-align: center;
+}
+
+.contact-title {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+.contact-subtitle {
+    color: var(--text-muted);
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.contact-form {
+    max-width: 500px;
+    margin: 0 auto;
+    display: grid;
+    gap: 1rem;
+}
+
+.contact-input {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--glass-border);
+    background: var(--surface);
+    color: white;
+}
+
+.footer-logo {
+    font-size: 1.2rem;
+}
+
+/* Utilities Round 3 */
+.mb-2 {
+    margin-bottom: 2rem;
+}
+
+.text-2xl {
+    font-size: 1.75rem;
+}
+
+.text-xs-muted {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.font-semibold-white {
+    font-weight: 600;
+    color: white;
+}
+
+/* Medical Forms */
+.form-container {
+    padding: 2.5rem;
+    max-width: 900px;
+}
+
+.form-section-title {
+    margin-bottom: 1.5rem;
+    color: var(--secondary);
+}
+
+.form-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.upload-icon {
+    font-size: 3rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.upload-text {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Scheduling */
+.scheduling-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    align-items: start;
+    /* Ensure stacking alignment */
+}
+
+/* Vertical Spacing Overlap Fix */
+.appointment-list-container {
+    padding-top: 1rem;
+}
+
+/* Responsive Scheduling */
+@media (max-width: 1000px) {
+    .scheduling-grid {
+        grid-template-columns: 1fr;
+        /* Stack vertically on smaller screens */
+    }
+
+    .quick-book-card {
+        position: static;
+        /* Remove sticky on mobile */
+        order: -1;
+        /* Show quick book first or keep as is? User didn't specify order, but stacking is key. I'll keep default order which puts it below for now, or match user preference if any. Actually, sidebar is 50%, main is rest. */
+        /* Actually, if 50% screen width, 250px + 1fr might be tight. */
+    }
+}
+
+.appointment-list-container {
+    background: transparent;
+    border: none;
+    overflow: visible;
+}
+
+.flex-between-center-mb-1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.quick-book-card {
+    background: var(--surface);
+    padding: 1.5rem;
+    border-radius: 16px;
+    border: 1px solid var(--glass-border);
+    align-self: start;
+    position: sticky;
+    top: 2rem;
+}
+
+.icon-clock {
+    margin-right: 6px;
+    font-size: 0.9rem;
+    color: var(--secondary);
+}
+
+/* Video Call */
+.video-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.status-badge-connected {
+    background: rgba(16, 185, 129, 0.2);
+    color: #10b981;
+    padding: 0.5rem 1rem;
+    border-radius: 99px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.icon-xs {
+    font-size: 8px;
+    margin-right: 6px;
+    vertical-align: middle;
+}
+
+.remote-video-placeholder {
+    width: 100%;
+    height: 100%;
+    background: #222;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-5xl {
+    font-size: 5rem;
+    color: #444;
+}
+
+.video-label {
+    position: absolute;
+    bottom: 2rem;
+    left: 2rem;
+    font-size: 1.25rem;
+}
+
+.self-view {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+    width: 240px;
+    height: 135px;
+    background: #333;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.video-label {
+    position: absolute;
+    bottom: 2rem;
+    left: 2rem;
+    font-size: clamp(1.2rem, 2.5vw, 2rem);
+    background: rgba(0, 0, 0, 0.5);
+    /* Optional: add background for readability if overlaying */
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+}
+
+/* Responsive Video Overlap Fix */
+@media (max-width: 900px) {
+    .video-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .remote-video-placeholder {
+        aspect-ratio: 16/9;
+        height: auto;
+    }
+
+    .self-view {
+        position: static;
+        /* Stack vertically */
+        width: 100%;
+        /* Full width self view */
+        height: 180px;
+        /* Fixed height for self view strip */
+        margin-top: 1rem;
+    }
+
+    .video-label {
+        position: static;
+        /* Stack in flow */
+        margin-top: 1rem;
+        text-align: center;
+        background: transparent;
+        padding: 0;
+    }
+}
+
+.self-view-inner {
+    width: 100%;
+    height: 100%;
+    background: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-2xl {
+    font-size: 2rem;
+    color: #555;
+}
+
+/* Tools Page Styles - moved from internal style block */
+.tools-section {
+    padding: 120px 0 4rem 0;
+}
+
+.nmr-widget {
+    background: #000;
+    border: 2px solid #333;
+    border-radius: 12px;
+    padding: 1rem;
+    font-family: 'Courier New', monospace;
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.2);
+    margin-bottom: 3rem;
+}
+
+.nmr-screen {
+    background: #0f172a;
+    border: 1px solid #1e293b;
+    height: 250px;
+
+    /* Sidebar & Utilities */
+    .mb-1 {
+        margin-bottom: 1rem;
+    }
+
+    .w-full {
+        width: 100%;
+    }
+
+    /* Index Chart Bars - Removing Inline Styles */
+    .chart-bar:nth-child(1) {
+        height: 40%;
+        opacity: 0.4;
+        background: var(--primary);
+    }
+
+    .chart-bar:nth-child(2) {
+        height: 60%;
+        opacity: 0.6;
+        background: var(--primary);
+    }
+
+    .chart-bar:nth-child(3) {
+        height: 80%;
+        background: var(--secondary);
+    }
+
+    .chart-bar:nth-child(4) {
+        height: 50%;
+        opacity: 0.5;
+        background: var(--primary);
+    }
+
+    .chart-bar:nth-child(5) {
+        height: 75%;
+        opacity: 0.7;
+        background: var(--primary);
+    }
+
+    /* Contact Form */
+    .contact-form .btn {
+        width: 100%;
+    }
+
+    /* Medical Forms Extras */
+    .media-item-placeholder {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: 236px;
+    }
+
+    .icon-pdf {
+        font-size: 3rem;
+        color: var(--accent);
+        margin-bottom: 1rem;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 3rem;
+    }
+
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nmr-signal {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+}
+
+.signal-bar {
+    flex: 1;
+    background: var(--secondary);
+    opacity: 0.7;
+    transition: height 0.1s ease;
+}
+
+.nmr-controls {
+    display: flex;
+    gap: 1rem;
+    padding: 0.5rem;
+    background: #1e293b;
+    border-radius: 8px;
+}
+
+.control-btn {
+    background: #334155;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.control-btn:hover {
+    background: var(--primary);
+}
+
+.control-btn.active {
+    background: var(--accent);
+    animation: pulse-red 1s infinite;
+}
+
+@keyframes pulse-red {
+    0% {
+        box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.7);
+    }
+
+    70% {
+        box-shadow: 0 0 0 6px rgba(244, 63, 94, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(244, 63, 94, 0);
+    }
+}
+
+.resources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.resource-card {
+    background: var(--surface);
+    border: 1px solid var(--glass-border);
+    padding: 1.5rem;
+    border-radius: 8px;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.resource-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--secondary);
+}
+
+.resource-category {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--secondary);
+    margin-bottom: 0.5rem;
+}
+
+.resource-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.copy-btn {
+    background: transparent;
+    border: 1px solid var(--text-muted);
+    color: var(--text-muted);
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.tool-version {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--secondary);
+}
+
+.nmr-status-overlay {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #0f0;
+    font-size: 0.8rem;
+}
+
+.gain-control {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #aaa;
+    font-size: 0.9rem;
+}
+
+.resources-header {
+    text-align: left;
+    margin-bottom: 2rem;
+    margin-top: 4rem;
+}
+
+/* ------------------------------------------------------------------
+   FINAL DASHBOARD POLISH
+   ------------------------------------------------------------------ */
+
+/* Layout: Sidebar + Main Content Grid */
+.dashboard-layout {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    min-height: 100vh;
+}
+
+.sidebar {
+    background: var(--surface);
+    border-right: 1px solid var(--glass-border);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+}
+
+.main-content {
+    padding: 2rem;
+    overflow-y: auto;
+    background: var(--background);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Header Correction */
+.dashboard-header {
+    margin-bottom: 2rem;
+    /* Reset Fixed Positioning from global header */
+    position: static;
+    width: auto;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+/* Typography Fluidity */
+h1,
+h2,
+.text-2xl {
+    font-size: clamp(1.4rem, 2.2vw, 2.2rem);
+}
+
+/* Responsive Stat Cards (Flex w/ Wrap) */
+.stat-grid {
+    display: flex;
+    flex-wrap: wrap;
+    /* Key for 'Mode 50%' stacking */
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.dashboard-card {
+    flex: 1 1 240px;
+    /* Grow, shrink, base width */
+    background: var(--surface);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--glass-border);
+    transition: transform 0.2s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary);
+}
+
+.stat-label {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: white;
+}
+
+.stat-trend {
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.stat-trend.positive {
+    color: #10b981;
+}
+
+.stat-trend.neutral {
+    color: #f59e0b;
+}
+
+.stat-trend.secondary {
+    color: var(--secondary);
+}
+
+.stat-trend.primary {
+    color: var(--primary);
+}
+
+/* Sidebar Navigation Styling */
+.sidebar-nav {
+    list-style: none;
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+    /* Pushes logout to bottom */
+}
+
+.sidebar-nav li a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.75rem 1rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.sidebar-nav li a:hover,
+.sidebar-nav li a.active {
+    background: rgba(37, 99, 235, 0.1);
+    color: var(--primary);
+}
+
+.sidebar-nav li a i {
+    width: 20px;
+    text-align: center;
+}
+
+/* Responsive Overrides */
+@media (max-width: 900px) {
+
+    /* "Mode 50%" / Tablet: Icon only sidebar or condensed */
+    .dashboard-layout {
+        grid-template-columns: 80px 1fr;
+    }
+
+    .sidebar {
+        padding: 1.5rem 0.5rem;
+        align-items: center;
+    }
+
+    .logo {
+        font-size: 0;
+        /* Hide text */
+    }
+
+    .logo i {
+        font-size: 1.5rem;
+        /* Show icon */
+    }
+
+    .sidebar-nav li a {
+        justify-content: center;
+        padding: 0.75rem;
+    }
+
+    .sidebar-nav li a span,
+    /* If span used for text */
+    .sidebar-nav li a {
+        font-size: 0;
+        /* Hide text if typical structure */
+    }
+
+    .sidebar-nav li a i {
+        font-size: 1.25rem;
+        margin: 0;
+    }
+}
+
+/* Typography Refinements for Mode 50% (< 800px) */
+@media (max-width: 800px) {
+
+    h1,
+    h2,
+    .user-name-display {
+        font-size: clamp(1.25rem, 4vw, 1.5rem);
+        line-height: 1.2;
+    }
+
+    .stat-value {
+        font-size: clamp(1.25rem, 3vw, 1.5rem);
+    }
+
+    table th,
+    table td {
+        font-size: 0.85rem;
+        padding: 0.75rem 0.5rem;
+    }
+
+    /* Truncate patient names if needed */
+    td:first-child {
+        max-width: 120px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 }

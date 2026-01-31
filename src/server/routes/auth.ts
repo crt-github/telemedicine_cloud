@@ -1,7 +1,8 @@
-const express = require('express');
+import express, { Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+
 const router = express.Router();
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
 
 // Mock User Database (Replace with PostgreSQL/MongoDB in production)
 const users = [
@@ -18,7 +19,7 @@ const users = [
 // @desc    Auth user & get token
 // @route   POST /api/auth/login
 // @access  Public
-router.post('/login', async (req, res) => {
+router.post('/login', async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
     // Simulate DB user lookup
@@ -39,7 +40,7 @@ router.post('/login', async (req, res) => {
         if (isMatch) {
             const token = jwt.sign(
                 { id: user.id, role: user.role },
-                process.env.JWT_SECRET,
+                process.env.JWT_SECRET as string,
                 { expiresIn: '30d' }
             );
 
@@ -57,4 +58,4 @@ router.post('/login', async (req, res) => {
     res.status(401).json({ message: 'Invalid email or password' });
 });
 
-module.exports = router;
+export default router;

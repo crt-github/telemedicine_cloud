@@ -1,3 +1,9 @@
+interface UserData {
+    name: string;
+    email: string;
+    role: string;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('telemed_token');
 
@@ -11,10 +17,14 @@ document.addEventListener('DOMContentLoaded', () => {
         // Update UI with user info
         const userStr = localStorage.getItem('telemed_user');
         if (userStr) {
-            const user = JSON.parse(userStr);
-            const userDisplay = document.querySelector('.user-name-display'); // You'll need to add this class to dashboard
-            if (userDisplay) {
-                userDisplay.textContent = `Welcome back, ${user.name}`;
+            try {
+                const user = JSON.parse(userStr) as UserData;
+                const userDisplay = document.querySelector('.user-name-display'); // You'll need to add this class to dashboard
+                if (userDisplay) {
+                    userDisplay.textContent = `Welcome back, ${user.name}`;
+                }
+            } catch (e) {
+                console.error("Error parsing user data", e);
             }
         }
     }
