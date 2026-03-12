@@ -242,6 +242,20 @@
                             <button type="button" class="btn btn-primary" aria-label="Send Message" onclick="sendMessage()"><i
                                     class="fa-solid fa-paper-plane"></i></button>
                         </div>
+                        <div class="p-4 border-t border-glass bg-surface flex justify-between items-center">
+                            <p class="text-xs text-muted">Use AI to prepare a structured report for the patient dossier.</p>
+                            <button type="button" class="btn btn-outline btn-sm" onclick="generateSummary()">
+                                <i class="fa-solid fa-file-medical-pulse mr-2"></i>Generate Doctor Summary
+                            </button>
+                        </div>
+                        <!-- Summary Output (Hidden by default) -->
+                        <div id="summaryOutput" class="p-6 bg-glass border-t border-glass overflow-y-auto ai-summary-output">
+                            <div class="flex justify-between items-start mb-4">
+                                <h4 class="text-primary font-bold"><i class="fa-solid fa-robot mr-2"></i>Structured Medical Summary</h4>
+                                <button type="button" class="text-xs text-muted hover:text-white" onclick="document.getElementById('summaryOutput').style.display='none'" title="Close Summary"><i class="fa-solid fa-xmark"></i></button>
+                            </div>
+                            <div id="summaryText" class="text-sm line-height-relaxed text-main whitespace-pre-wrap"></div>
+                        </div>
                     </div>
 
                     <!-- 2. Image Analysis Mode -->
@@ -336,6 +350,28 @@
                 container.appendChild(aiDiv);
                 container.scrollTop = container.scrollHeight;
             }, 1000);
+        }
+
+        function generateSummary() {
+            const container = document.getElementById('chatMessages');
+            const summaryOutput = document.getElementById('summaryOutput');
+            const summaryText = document.getElementById('summaryText');
+            
+            // Collect all user messages to summarize
+            const userMessages = Array.from(document.querySelectorAll('.message.user')).map(m => m.innerText);
+            
+            if (userMessages.length === 0) {
+                alert("Please describe some symptoms first.");
+                return;
+            }
+
+            summaryOutput.style.display = 'block';
+            summaryText.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin mr-2"></i> AI is processing clinical context...`;
+
+            setTimeout(() => {
+                const patientSymptoms = userMessages.join(", ");
+                summaryText.innerText = `[CLINICAL SUMMARY - GENAI GENERATED]\n\nPRESENTING SYMPTOMS:\n- ${patientSymptoms}\n\nDIFFERENTIALS TO CONSIDER:\n1. Myocardial Infarction (Rule out via ECG/Troponin)\n2. Pulmonary Embolism (Consider D-Dimer)\n3. Musculoskeletal Chest Pain\n\nRECOMMENDED ACTION:\nImmediate referral for cardiac enzymes and 12-lead ECG.`;
+            }, 2000);
         }
 
         // --- AUTH CHECK ---

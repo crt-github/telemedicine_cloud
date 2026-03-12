@@ -160,6 +160,13 @@
 
     <script src="dist/client/protect.js"></script>
     <script>
+        // --- AUTH CHECK ---
+        (function checkAuth() {
+            const token = localStorage.getItem('authToken');
+            if (!token) {
+                window.location.href = 'login.html';
+            }
+        })();
         function resetForm() {
             document.getElementById('patientForm').reset();
             window.scrollTo({ top: 0, behavior: 'smooth' });

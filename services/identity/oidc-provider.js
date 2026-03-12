@@ -22,11 +22,16 @@ app.post('/login', (req, res) => {
 
     // ISSUE GLOBAL TOKEN with "routing_claim"
     // This token tells the Frontend WHICH Cell to talk to
+    const GLOBAL_SECRET = process.env.GLOBAL_SECRET;
+    if (!GLOBAL_SECRET) {
+        return res.status(500).json({ error: 'Server misconfiguration: GLOBAL_SECRET missing' });
+    }
+
     const token = jwt.sign({
         sub: user.id,
         routing_region: user.country, // Critical for routing
         scope: 'telemed:access'
-    }, 'global-secret', { expiresIn: '1h' });
+    }, GLOBAL_SECRET, { expiresIn: '1h' });
 
     res.json({
         token,

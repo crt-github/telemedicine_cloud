@@ -2037,3 +2037,44 @@ body.profile-page .logo {
     flex: 1;
     min-width: 250px;
 }
+
+/* --- Lock Screen & Security UI --- */
+.lock-screen-overlay {
+    z-index: 9999;
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    background: rgba(15, 23, 42, 0.95);
+}
+
+.lock-screen-content {
+    text-align: center;
+    border: 1px solid var(--glass-border);
+}
+
+.lock-screen-icon {
+    color: var(--primary);
+}
+
+.lock-screen-unlock-btn {
+    font-size: 1.1rem;
+}
+
+.lock-btn-danger {
+    color: var(--accent);
+    border-color: var(--accent);
+}
+
+.mfa-bypass-btn {
+    border-color: #10b981;
+    color: #10b981;
+}
+
+.mfa-vpn-btn {
+    border-color: #3b82f6;
+    color: #3b82f6;
+}
+
+.ai-summary-output {
+    display: none;
+    max-height: 200px;
+}

@@ -5,7 +5,11 @@ const app = express();
 app.use(express.json());
 
 const PORT = process.env.PORT || 3001;
-const JWT_SECRET = process.env.JWT_SECRET || 'swiss-secret-key';
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+    console.error('CRITICAL: JWT_SECRET environment variable is missing. Exiting securely.');
+    process.exit(1);
+}
 
 // Mock MFA Verification (Compliance Requirement)
 const verifyMFA = (userId, token) => {
@@ -16,8 +20,16 @@ const verifyMFA = (userId, token) => {
 app.post('/login', (req, res) => {
     const { username, password, mfaToken } = req.body;
 
-    // 1. Validate Credentials (Mock)
-    if (username === 'doctor' && password === 'securepass') {
+    const adminUser = process.env.ADMIN_USER;
+    const adminPass = process.env.ADMIN_PASS;
+
+    if (!adminUser || !adminPass) {
+        console.error('CRITICAL: Authentication credentials missing from environment.');
+        return res.status(500).json({ error: 'Server misconfiguration' });
+    }
+
+    // 1. Validate Credentials (Secure)
+    if (username === adminUser && password === adminPass) {
         // 2. Enforce MFA for sensitive access
         if (!verifyMFA(username, mfaToken)) {
             return res.status(403).json({ error: 'MFA Failed' });

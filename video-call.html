@@ -187,6 +187,30 @@
             border: 1px solid var(--glass-border);
             border-radius: 16px;
         }
+
+        /* Live Transcription Panel */
+        .transcription-panel {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            right: 16px;
+            max-height: 120px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.75);
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+            border-radius: 10px;
+            padding: 12px 16px;
+            color: #fff;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            display: none;
+            z-index: 20;
+        }
+        .transcription-panel.active { display: block; }
+        .transcript-line { margin-bottom: 4px; }
+        .transcript-line .speaker { color: var(--primary); font-weight: 600; margin-right: 6px; }
+        .control-btn.cc-active { background: var(--primary); color: white; }
     </style>
 </head>
 
@@ -231,6 +255,10 @@
                             <i class="fa-solid fa-user icon-5xl mb-4"></i>
                             <h3 class="text-xl">Patient: Michael Chen</h3>
                             <p class="text-sm">Connecting...</p>
+                        </div>
+                        <!-- Live Transcription Overlay -->
+                        <div id="transcriptionPanel" class="transcription-panel">
+                            <div class="transcript-line"><span class="speaker">AI:</span> Live transcription will appear here...</div>
                         </div>
                     </div>
                 </div>
@@ -277,6 +305,7 @@
                             class="fa-solid fa-microphone"></i></button>
                     <button type="button" class="control-btn" aria-label="Toggle Camera"><i class="fa-solid fa-video"></i></button>
                     <button type="button" class="control-btn" aria-label="Share Screen"><i class="fa-solid fa-desktop"></i></button>
+                    <button type="button" id="ccToggle" class="control-btn" aria-label="Toggle Captions" onclick="toggleTranscription()"><i class="fa-solid fa-closed-captioning"></i></button>
                     <button type="button" class="control-btn" aria-label="Chat"><i class="fa-solid fa-message"></i></button>
                     <button type="button" class="control-btn danger" onclick="window.location.href='dashboard.html'"
                         aria-label="End Call"><i class="fa-solid fa-phone-slash"></i></button>
@@ -286,8 +315,8 @@
         </main>
     </div>
 
-    <!-- Auth Check -->
     <script>
+        // --- AUTH CHECK ---
         (function checkAuth() {
             const token = localStorage.getItem('authToken');
             if (!token) {
@@ -295,17 +324,98 @@
             }
         })();
 
-        // Background Switcher
+        // --- Background Switcher ---
         function setBg(btn, bgClass) {
-            // Update Preview
             const preview = document.getElementById('selfView');
-            // Remove previous bg classes
             preview.classList.remove('bg-branded', 'bg-dark', 'bg-light');
             preview.classList.add(bgClass);
-
-            // Update Active Button
             document.querySelectorAll('.bg-option-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
+        }
+
+        // --- LIVE TRANSCRIPTION (Web Speech API) ---
+        let recognition = null;
+        let isTranscribing = false;
+        const transcriptionPanel = document.getElementById('transcriptionPanel');
+        const ccToggle = document.getElementById('ccToggle');
+
+        function toggleTranscription() {
+            if (isTranscribing) {
+                stopTranscription();
+            } else {
+                startTranscription();
+            }
+        }
+
+        function startTranscription() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                alert('Speech Recognition is not supported in this browser. Please use Chrome or Edge.');
+                return;
+            }
+
+            recognition = new SpeechRecognition();
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.lang = 'en-US';
+
+            transcriptionPanel.classList.add('active');
+            transcriptionPanel.innerHTML = '<div class="transcript-line"><span class="speaker">AI:</span> Listening... speak now.</div>';
+            ccToggle.classList.add('cc-active');
+            isTranscribing = true;
+
+            recognition.onresult = (event) => {
+                let interimTranscript = '';
+                let finalTranscript = '';
+
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    const transcript = event.results[i][0].transcript;
+                    if (event.results[i].isFinal) {
+                        finalTranscript += transcript;
+                    } else {
+                        interimTranscript += transcript;
+                    }
+                }
+
+                if (finalTranscript) {
+                    const line = document.createElement('div');
+                    line.className = 'transcript-line';
+                    line.innerHTML = `<span class="speaker">Doctor:</span> ${finalTranscript}`;
+                    transcriptionPanel.appendChild(line);
+                    transcriptionPanel.scrollTop = transcriptionPanel.scrollHeight;
+                }
+            };
+
+            recognition.onerror = (event) => {
+                if (event.error !== 'no-speech') {
+                    const errLine = document.createElement('div');
+                    errLine.className = 'transcript-line';
+                    errLine.innerHTML = `<span class="speaker">System:</span> Microphone error: ${event.error}`;
+                    transcriptionPanel.appendChild(errLine);
+                }
+            };
+
+            recognition.onend = () => {
+                // Auto-restart if still active
+                if (isTranscribing) {
+                    recognition.start();
+                }
+            };
+
+            recognition.start();
+        }
+
+        function stopTranscription() {
+            isTranscribing = false;
+            if (recognition) {
+                recognition.stop();
+                recognition = null;
+            }
+            ccToggle.classList.remove('cc-active');
+            const endLine = document.createElement('div');
+            endLine.className = 'transcript-line';
+            endLine.innerHTML = '<span class="speaker">AI:</span> Transcription stopped.';
+            transcriptionPanel.appendChild(endLine);
         }
     </script>
 </body>

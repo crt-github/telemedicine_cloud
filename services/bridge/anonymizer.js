@@ -2,7 +2,11 @@
 const crypto = require('crypto');
 
 // Master Salt (Stored in Swiss Safe Zone ONLY)
-const SALT = process.env.PII_SALT || 'swiss-secret-salt-strictly-internal';
+const SALT = process.env.PII_SALT;
+if (!SALT) {
+    console.error('CRITICAL: PII_SALT environment variable is missing.');
+    process.exit(1);
+}
 
 const anonymizePatient = (patient) => {
     // 1. Generate Deterministic UUID (Tokenization)

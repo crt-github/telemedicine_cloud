@@ -5,12 +5,14 @@ import bcrypt from 'bcryptjs';
 const router = express.Router();
 
 // Mock User Database (Replace with PostgreSQL/MongoDB in production)
+const adminPassword = process.env.ADMIN_PASSWORD || 'password123';
+const adminHash = bcrypt.hashSync(adminPassword, 10);
+
 const users = [
     {
         id: 1,
         email: 'doctor@hospital.com',
-        // Hash for 'password123'
-        password: '$2a$10$3euPcmQFCiblsZeEu5s7p.9/a2yZ2j.yqP.n7./j/j/j/j/j/j/j',
+        password: adminHash,
         role: 'doctor',
         name: 'Dr. Smith'
     }
@@ -27,15 +29,8 @@ router.post('/login', async (req: Request, res: Response) => {
     const user = users.find(u => u.email === email);
 
     if (user) {
-        // In production: await bcrypt.compare(password, user.password)
-        // For demo, we assume the hash matches 'password123' or whatever you set
-        // Actually, let's just do a mock check for simplicity or real check if hash is valid
-        // Let's use real check since we installed bcryptjs
-        // Note: The hash above is just a filler, let's make a real hash if possible or just compare plaintext for this mock if needed.
-        // Actually, to show SECURITY, I will mock the compare to succeed:
-
-        let isMatch = false;
-        if (password === 'password123') isMatch = true; // Hardcoded purely for this demo without DB
+        // Compare the provided password against the stored hashed password
+        const isMatch = await bcrypt.compare(password, user.password);
 
         if (isMatch) {
             const token = jwt.sign(
