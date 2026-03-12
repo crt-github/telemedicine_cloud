@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Medical Assistant | TeleMed Cloud</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* AI Layout Specifics */
+        .ai-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            height: 100%;
+        }
+
+        .ai-sidebar {
+            background: linear-gradient(135deg, #1e293b 0%, #172554 50%, #155e75 100%);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            height: fit-content;
+        }
+
+        .ai-mode-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+            margin-bottom: 0.5rem;
+        }
+
+        .ai-mode-btn:hover,
+        .ai-mode-btn.active {
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+        }
+
+        .ai-workspace {
+            background: linear-gradient(135deg, #1e293b 0%, #172554 50%, #155e75 100%);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            height: calc(100vh - 200px);
+            /* Reduced to prevent overlap */
+            min-height: 500px;
+        }
+
+        .chat-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 1rem 1.5rem;
+            border-radius: 16px;
+            line-height: 1.5;
+        }
+
+        .message.ai {
+            align-self: flex-start;
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom-left-radius: 4px;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background: var(--primary);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .chat-input-area {
+            padding: 1.5rem;
+            border-top: 1px solid var(--glass-border);
+            background: rgba(0, 0, 0, 0.2);
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Drag Access */
+        .drop-zone {
+            display: none;
+            /* Active only in IMG mode */
+            border: 2px dashed var(--glass-border);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            margin: 1rem;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .mode-section {
+            display: none;
+        }
+
+        .mode-section.active {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        /* Replaced Inline Styles */
+        .upload-zone-custom {
+            border: 2px dashed var(--glass-border);
+            border-radius: 12px;
+            height: 300px;
+        }
+
+        .analysis-thumbnail {
+            width: 50px;
+            height: 50px;
+            background: #333;
+            border-radius: 8px;
+        }
+
+        .alert-active {
+            background: rgba(37,99,235,0.1);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .badge-surface {
+            background: var(--surface);
+            border: 1px solid var(--glass-border);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside aria-label="Sidebar" class="sidebar">
+            <a href="index.html" class="logo mb-1">
+                <i class="fa-solid fa-heart-pulse icon-secondary"></i>
+                TeleMed
+            </a>
+
+            <ul class="sidebar-nav">
+                <li><a href="dashboard.html"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
+                <li><a href="scheduling.html"><i class="fa-regular fa-calendar-check"></i> Appointments</a></li>
+                <li><a href="video-call.html"><i class="fa-solid fa-video"></i> Video Consult</a></li>
+                <li><a href="medical-forms.html"><i class="fa-solid fa-file-medical"></i> Patient Records</a></li>
+                <li><a href="tools.html"><i class="fa-solid fa-toolbox"></i> Tools</a></li>
+                <li><a href="knowledge.html"><i class="fa-solid fa-book-medical"></i> Knowledge</a></li>
+                <li><a href="ai-assistant.html" class="active"><i class="fa-solid fa-robot"></i> AI Assistant</a></li>
+                <li class="mt-auto"><a href="login.html"><i class="fa-solid fa-right-from-bracket"></i>
+                        Logout</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="mb-2">
+                <h2 class="page-header-title">AI Medical Assistant</h2>
+                <p class="text-muted">Diagnostic decision support, medical imaging analysis, and signal processing.</p>
+            </div>
+
+            <div class="ai-layout">
+
+                <!-- Sidebar Controls -->
+                <aside aria-label="AI Capabilities" class="ai-sidebar">
+                    <h3 class="mb-2 text-xl">AI Capabilities</h3>
+
+                    <button type="button" class="ai-mode-btn active" onclick="switchMode('symptom')">
+                        <i class="fa-solid fa-stethoscope"></i>
+                        <span class="block text-left">
+                            <span class="font-semibold block">Symptom Checker</span>
+                            <span class="text-xs text-muted block">Diagnostic assistance</span>
+                        </span>
+                    </button>
+
+                    <button type="button" class="ai-mode-btn" onclick="switchMode('image')">
+                        <i class="fa-solid fa-image"></i>
+                        <span class="block text-left">
+                            <span class="font-semibold block">Image Analysis</span>
+                            <span class="text-xs text-muted block">Derm/X-Ray/MRI</span>
+                        </span>
+                    </button>
+
+                    <button type="button" class="ai-mode-btn" onclick="switchMode('spectrum')">
+                        <i class="fa-solid fa-wave-square"></i>
+                        <span class="block text-left">
+                            <span class="font-semibold block">Spectrum Reader</span>
+                            <span class="text-xs text-muted block">NMR/ECG Analysis</span>
+                        </span>
+                    </button>
+
+                    <div class="mt-4 p-2 bg-surface border border-glass rounded text-xs text-muted">
+                        <i class="fa-solid fa-shield-halved mr-1"></i>
+                        <strong>Privacy Mode On:</strong> All patient data is anonymized before AI processing.
+                    </div>
+                </aside>
+
+                <!-- Main Workspace -->
+                <div class="ai-workspace">
+
+                    <!-- 1. Symptom Checker Mode -->
+                    <div id="mode-symptom" class="mode-section active">
+                        <div class="chat-header">
+                            <div>
+                                <h2 class="text-xl">Dr. AI Assistant</h2>
+                                <p class="text-xs text-muted">Connected to Global Medical Knowledge Graph</p>
+                            </div>
+                            <span class="badge badge-success">Online</span>
+                        </div>
+                        <div class="chat-messages" id="chatMessages">
+                            <div class="message ai">
+                                Hello Dr. Cori. Please describe the patient's symptoms, vitals, or history. I can assist
+                                with differential diagnosis and treatment guidelines.
+                            </div>
+                        </div>
+                        <div class="chat-input-area">
+                            <input type="text" class="form-input" id="chatInput"
+                                placeholder="Type symptoms (e.g., 'Patient presents with acute chest pain, radiating to left arm...')">
+                            <button type="button" class="btn btn-primary" aria-label="Send Message" onclick="sendMessage()"><i
+                                    class="fa-solid fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- 2. Image Analysis Mode -->
+                    <div id="mode-image" class="mode-section">
+                        <div class="chat-header">
+                            <h2 class="text-xl">Medical Image Analysis</h2>
+                        </div>
+                        <div class="p-4 flex-1 flex flex-col items-center justify-center">
+                            <div class="upload-zone upload-zone-custom w-full h-full flex flex-col justify-center items-center">
+                                <i class="fa-solid fa-cloud-arrow-up icon-3xl mb-2 text-muted"></i>
+                                <h3 class="text-lg">Upload Scan or Photo</h3>
+                                <p class="text-muted mb-4">Supports DICOM, JPG, PNG (Dermoscopy, X-Ray, MRI)</p>
+                                <button type="button" class="btn btn-outline">Select Files</button>
+                            </div>
+                            <div class="mt-4 w-full">
+                                <h4 class="mb-2">Recent Analysis</h4>
+                                <div class="dashboard-card p-3 flex items-center gap-3">
+                                    <div class="analysis-thumbnail"></div>
+                                    <div>
+                                        <div class="font-semibold">Skin_Lesion_042.jpg</div>
+                                        <div class="text-xs text-success">Low Risk (88% Confidence)</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Spectrum Mode -->
+                    <div id="mode-spectrum" class="mode-section">
+                        <div class="chat-header">
+                            <h2 class="text-xl">Signal &amp; Spectrum Reader</h2>
+                        </div>
+                        <div class="p-4 flex-1">
+                            <div class="alert alert-info alert-active mb-4">
+                                <i class="fa-solid fa-circle-info mr-2"></i>
+                                <strong>Integration Active:</strong> Directly reading from NMR Tool buffer.
+                            </div>
+                            <div class="dashboard-card p-4 mb-4">
+                                <h4 class="mb-2">Detected Peaks</h4>
+                                <div class="flex gap-2 mb-2">
+                                    <span class="badge badge-surface">4.2 ppm
+                                        (Lactate)</span>
+                                    <span class="badge badge-surface">2.1 ppm
+                                        (Glutamine)</span>
+                                </div>
+                                <p class="text-muted text-sm">Analysis suggests elevated lactate levels consistent with
+                                    metabolic stress.</p>
+                            </div>
+                            <button type="button" class="btn btn-primary" onclick="window.location.href='tools.html'">Open Full
+                                Analyzer
+                                Tool</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function switchMode(mode) {
+            // Update buttons
+            document.querySelectorAll('.ai-mode-btn').forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            // Update sections
+            document.querySelectorAll('.mode-section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById('mode-' + mode).classList.add('active');
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const text = input.value;
+            if (!text) return;
+
+            const container = document.getElementById('chatMessages');
+
+            // User Msg
+            const userDiv = document.createElement('div');
+            userDiv.className = 'message user';
+            userDiv.innerText = text;
+            container.appendChild(userDiv);
+
+            input.value = '';
+            container.scrollTop = container.scrollHeight;
+
+            // Mock AI Response
+            setTimeout(() => {
+                const aiDiv = document.createElement('div');
+                aiDiv.className = 'message ai';
+                aiDiv.innerText = "Scanning global databases... \n\nBased on these symptoms, consider checking Troponin levels and D-Dimer to rule out PE. \n\nReference: UpToDate 'Chest Pain Differential'";
+                container.appendChild(aiDiv);
+                container.scrollTop = container.scrollHeight;
+            }, 1000);
+        }
+
+        // --- AUTH CHECK ---
+        (function checkAuth() {
+            const token = localStorage.getItem('authToken');
+            if (!token) {
+                window.location.href = 'login.html';
+            }
+        })();
+
+        // --- CONTEXT HANDLER ---
+        (function handleContext() {
+            const params = new URLSearchParams(window.location.search);
+            const context = params.get('context');
+
+            if (context === 'image_analysis') {
+                switchMode('image');
+                setTimeout(() => {
+                    const container = document.getElementById('chatMessages'); // Note: Image mode doesn't have chatMessages by default in current HTML structure, but if we wanted to show a toast we could. 
+                    // Better: The 'image' mode is active, user sees upload zone.
+                }, 500);
+            } else if (context === 'iot_analysis') {
+                switchMode('spectrum');
+            }
+        })();
+    </script>
+</body>
+
+</html>

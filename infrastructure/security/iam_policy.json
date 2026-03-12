@@ -1,0 +1,36 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowDoctorAccessToPatientRecords",
+            "Effect": "Allow",
+            "Action": [
+                "db:GetItem",
+                "db:Query"
+            ],
+            "Resource": "arn:swiss-cloud:db:ch-gva-2:patient-records/*",
+            "Condition": {
+                "Bool": {
+                    "aws:MultiFactorAuthPresent": "true"
+                },
+                "StringEquals": {
+                    "user:Role": "Doctor",
+                    "user:Location": "CH"
+                }
+            }
+        },
+        {
+            "Sid": "DenyExportOutsideCH",
+            "Effect": "Deny",
+            "Action": [
+                "s3:GetObject"
+            ],
+            "Resource": "arn:swiss-cloud:storage:ch-gva-2:patient-data/*",
+            "Condition": {
+                "NotIpAddress": {
+                    "aws:SourceIp": "192.168.0.0/16"
+                }
+            }
+        }
+    ]
+}

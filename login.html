@@ -7,6 +7,74 @@
     <title>Login | TeleMed Cloud</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .biometric-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1rem;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        .biometric-btn:hover {
+            background: rgba(37, 99, 235, 0.1);
+            border-color: var(--primary);
+        }
+
+        .biometric-icon {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 1.5rem 0;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .divider:not(:empty)::before {
+            margin-right: .5em;
+        }
+
+        .divider:not(:empty)::after {
+            margin-left: .5em;
+        }
+
+        #mfaSection {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -20,9 +88,9 @@
                 <span>TeleMed</span>Cloud
             </div>
 
-            <div id="errorMsg" class="auth-error-msg">
-            </div>
+            <div id="errorMsg" class="auth-error-msg"></div>
 
+            <!-- Initial Login Form -->
             <form id="loginForm">
                 <div class="form-group">
                     <label class="form-label">Email Address</label>
@@ -31,7 +99,7 @@
 
                 <div class="form-group">
                     <label class="form-label">Password</label>
-                    <input type="password" id="password" class="form-input" placeholder="••••••••" required>
+                    <input type="password" autocomplete="current-password" id="password" class="form-input" placeholder="••••••••" required>
                 </div>
 
                 <div class="auth-form-footer">
@@ -44,13 +112,114 @@
                 <button type="submit" class="btn btn-primary w-full">Sign In</button>
             </form>
 
+            <!-- MFA Section (Hidden initially) -->
+            <div id="mfaSection">
+                <div class="divider">Two-Factor Authentication</div>
+                <p class="text-sm text-muted text-center mb-4">Enter the code sent to your device.</p>
+
+                <div class="form-group">
+                    <input type="text" id="mfaCode" class="form-input text-center" placeholder="XXX-XXX"
+                        >
+                </div>
+
+                <button type="button" onclick="verifyMfa()" class="btn btn-primary w-full">Verify Code</button>
+                <button type="button" onclick="cancelMfa()" class="btn btn-outline w-full mt-2">Back</button>
+            </div>
+
+            <div class="divider">OR LOGIN WITH</div>
+
+            <button type="button" class="biometric-btn" onclick="loginBiometric('face')">
+                <i class="fa-solid fa-expand biometric-icon"></i>
+                <span>Face ID Recognition</span>
+            </button>
+
+            <button type="button" class="biometric-btn" onclick="loginBiometric('fingerprint')">
+                <i class="fa-solid fa-fingerprint biometric-icon"></i>
+                <span>Touch ID / Fingerprint</span>
+            </button>
+
             <p class="auth-signup-text">
                 Don't have an account? <a href="#" class="auth-signup-link">Contact Admin</a>
             </p>
         </div>
     </div>
 
-    <script src="dist/client/auth.js"></script>
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        const mfaSection = document.getElementById('mfaSection');
+        const errorMsg = document.getElementById('errorMsg');
+
+        // Handle Standard Login -> Trigger MFA
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (email && password) {
+                // --- DEV MODE: BYPASS MFA ---
+                // TODO: Uncomment lines below to enable MFA for Production
+                /*
+                loginForm.style.display = 'none';
+                mfaSection.style.display = 'block';
+                document.querySelector('.divider').style.display = 'none';
+                document.querySelectorAll('.biometric-btn').forEach(b => b.style.display = 'none');
+                */
+
+                // Direct Login for Pilot/Dev
+                localStorage.setItem('authToken', 'mock-token-dev-789');
+                window.location.href = 'dashboard.html';
+            } else {
+                showError('Please enter email and password');
+            }
+        });
+
+        // Handle MFA Verification
+        function verifyMfa() {
+            const code = document.getElementById('mfaCode').value;
+            if (code.length >= 3) {
+                // Success
+                localStorage.setItem('authToken', 'mock-token-secure-123'); // Set Token
+                window.location.href = 'dashboard.html';
+            } else {
+                showError('Invalid MFA Code');
+            }
+        }
+
+        // Cancel MFA
+        function cancelMfa() {
+            mfaSection.style.display = 'none';
+            loginForm.style.display = 'block';
+            document.querySelector('.divider').style.display = 'flex';
+            document.querySelectorAll('.biometric-btn').forEach(b => b.style.display = 'flex');
+            errorMsg.style.display = 'none';
+        }
+
+        // Handle Biometrics
+        function loginBiometric(type) {
+            // --- DEV MODE: DISABLED ---
+            alert("Biometric Login is disabled for this Pilot phase. Please use standard login.");
+            return;
+
+            /* TODO: Enable for Production
+            // Simulate scanning...
+            const btn = type === 'face' ? document.querySelectorAll('.biometric-btn')[0] : document.querySelectorAll('.biometric-btn')[1];
+            const originalText = btn.innerHTML;
+
+            btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin biometric-icon"></i> Scanning...`;
+
+            setTimeout(() => {
+                // Success
+                localStorage.setItem('authToken', 'mock-token-biometric-456');
+                window.location.href = 'dashboard.html?auth=bio';
+            }, 1500);
+            */
+        }
+
+        function showError(msg) {
+            errorMsg.textContent = msg;
+            errorMsg.style.display = 'block';
+        }
+    </script>
 </body>
 
 </html>

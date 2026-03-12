@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Bases | TeleMed Cloud</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Knowledge Base Specific Styles */
+        .kb-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, #1e293b 0%, #172554 50%, #155e75 100%);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            flex-grow: 1;
+            max-width: 400px;
+        }
+
+        .search-container i {
+            color: var(--text-muted);
+            margin-right: 0.5rem;
+        }
+
+        .country-search {
+            background: transparent;
+            border: none;
+            color: white;
+            width: 100%;
+            outline: none;
+            font-size: 0.9rem;
+        }
+
+        .country-search option {
+            background: #1a1a1a;
+            color: white;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .kb-tab {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            padding: 0.5rem 1.2rem;
+            border-radius: 99px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .kb-tab.active,
+        .kb-tab:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .kb-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* Access Card Styles */
+        .feature-card.add-new {
+            border: 2px dashed var(--glass-border);
+            background: rgba(255, 255, 255, 0.02);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: 200px;
+        }
+
+        .feature-card.add-new:hover {
+            border-color: var(--primary);
+            background: rgba(37, 99, 235, 0.05);
+            transform: translateY(-5px);
+        }
+
+        .add-icon {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Badge Colors */
+        .badge-regulatory {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--text-main);
+        }
+
+        .badge-journal {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--text-main);
+        }
+
+        .badge-commercial {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--text-main);
+        }
+
+        .badge-education {
+            background: rgba(236, 72, 153, 0.2);
+            color: var(--text-main);
+        }
+
+        .badge-default {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+        }
+
+        .badge-country {
+            background: var(--surface);
+            border: 1px solid var(--glass-border);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            -webkit-backdrop-filter: blur(4px);
+            backdrop-filter: blur(4px);
+            /* Safari Support */
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1e293b 0%, #172554 50%, #155e75 100%);
+            border: 1px solid var(--glass-border);
+            padding: 2rem;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <a href="index.html" class="logo mb-1">
+                <i class="fa-solid fa-heart-pulse icon-secondary"></i>
+                TeleMed
+            </a>
+
+            <ul class="sidebar-nav">
+                <li><a href="dashboard.html"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
+                <li><a href="scheduling.html"><i class="fa-regular fa-calendar-check"></i> Appointments</a></li>
+                <li><a href="video-call.html"><i class="fa-solid fa-video"></i> Video Consult</a></li>
+                <li><a href="medical-forms.html"><i class="fa-solid fa-file-medical"></i> Patient Records</a></li>
+                <li><a href="tools.html"><i class="fa-solid fa-toolbox"></i> Tools</a></li>
+                <li><a href="knowledge.html" class="active"><i class="fa-solid fa-book-medical"></i> Knowledge</a></li>
+                <li><a href="ai-assistant.html"><i class="fa-solid fa-robot"></i> AI Assistant</a></li>
+                <li class="mt-auto"><a href="login.html"><i class="fa-solid fa-right-from-bracket"></i>
+                        Logout</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="mb-2">
+                <h2 class="page-header-title">Global Medical Knowledge Base</h2>
+                <p class="text-muted">Curated regulatory intelligence, journals, databases, and educational resources.
+                </p>
+            </div>
+
+            <!-- Streamlined Filter Controls -->
+            <div class="kb-controls">
+                <div class="filter-header">
+                    <!-- Text Search -->
+                    <div class="search-container search-container-expanded">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="searchInput" class="country-search"
+                            placeholder="Search databases, journals..." aria-label="Search Resources">
+                    </div>
+
+                    <!-- Country Search / Filter -->
+                    <div class="search-container">
+                        <i class="fa-solid fa-earth-americas"></i>
+                        <select id="countrySelect" class="country-search" aria-label="Filter by Country">
+                            <option value="all">Global &amp; All Countries</option>
+                            <!-- Populated by JS -->
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Resource Type Tabs -->
+                <div class="filter-tabs">
+                    <button type="button" class="kb-tab active" data-type="all">Global (All)</button>
+                    <button type="button" class="kb-tab" data-type="Database">Databases</button>
+                    <button type="button" class="kb-tab" data-type="Education">Medical Education</button>
+                    <button type="button" class="kb-tab" data-type="Journal">Journals</button>
+                    <button type="button" class="kb-tab" data-type="Assoc">Associations</button>
+                    <button type="button" class="kb-tab" data-type="Regulatory">Regulatory</button>
+                    <button type="button" class="kb-tab" data-type="Commercial">Pharma Intelligence</button>
+                </div>
+            </div>
+
+            <!-- Grid Container -->
+            <div id="resourcesGrid" class="kb-section">
+                <!-- Populated by JS -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Resource Modal -->
+    <div id="addModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 class="text-xl mb-4">Add Medical Resource</h3>
+            <div class="form-group mb-3">
+                <label class="block text-sm text-muted mb-1">Resource Name</label>
+                <input type="text" id="newResName" class="form-input w-full">
+            </div>
+            <div class="form-group mb-3">
+                <label class="block text-sm text-muted mb-1">Type</label>
+                <select id="newResType" class="form-input w-full">
+                    <option value="Education">Education / Book</option>
+                    <option value="Journal">Journal</option>
+                    <option value="Database">Database</option>
+                    <option value="Regulatory">Regulatory Body</option>
+                    <option value="Commercial">Pharma Intelligence</option>
+                    <option value="Assoc">Association</option>
+                </select>
+            </div>
+            <div class="form-group mb-4">
+                <label class="block text-sm text-muted mb-1">Country / Region</label>
+                <input type="text" id="newResCountry" class="form-input w-full" placeholder="e.g. Global">
+            </div>
+            <div class="flex gap-2 justify-end">
+                <button type="button" onclick="closeModal()" class="btn btn-outline">Cancel</button>
+                <button type="button" onclick="addNewResource()" class="btn btn-primary">Add Resource</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth Check &amp; Data -->
+    <script>
+        // --- AUTH CHECK ---
+        (function checkAuth() {
+            const token = localStorage.getItem('authToken');
+            if (!token) {
+                // Determine if we are on a protected page
+                const path = window.location.pathname;
+                const publicPages = ['index.html', 'login.html', 'register.html'];
+                const isPublic = publicPages.some(p => path.endsWith(p)) || path === '/' || path.endsWith('/');
+
+                if (!isPublic) {
+                    window.location.href = 'login.html';
+                }
+            }
+        })();
+
+        // --- EXPANDED DATASET ---
+        let resources = [
+            // === MEDICAL EDUCATION (Books &amp; Reference) ===
+            { type: 'Education', country: 'Global', name: 'Sobotta Atlas of Human Anatomy', desc: 'The classic atlas for studying detailed human anatomy.' },
+            { type: 'Education', country: 'Global', name: 'Netter\'s Atlas of Human Anatomy', desc: 'The gold standard for anatomical illustration and education.' },
+            { type: 'Education', country: 'Global', name: 'Gray\'s Anatomy', desc: 'The definite reference for clinical anatomy.' },
+            { type: 'Education', country: 'Global', name: 'Harrison\'s Principles of Internal Medicine', desc: 'Leading textbook on internal medicine.' },
+            { type: 'Education', country: 'Global', name: 'Guyton and Hall Textbook of Medical Physiology', desc: 'Standard physiology reference.' },
+            { type: 'Education', country: 'Global', name: 'Robbins &amp; Cotran Pathologic Basis of Disease', desc: 'The "bible" of pathology.' },
+            { type: 'Education', country: 'Global', name: 'Bates\' Guide to Physical Examination', desc: 'Essential for clinical skills and history taking.' },
+            { type: 'Education', country: 'Global', name: 'Goodman &amp; Gilman\'s The Pharmacological Basis', desc: 'The absolute authority on pharmacology.' },
+            { type: 'Education', country: 'Global', name: 'Merck Manual', desc: 'Comprehensive medical reference for diagnosis and therapy.' },
+
+            // === TOP 10 PHARMA INTELLIGENCE PROVIDERS ===
+            { type: 'Commercial', country: 'Global', name: 'IQVIA', desc: 'Top global provider of advanced analytics, technology solutions, and clinical research.' },
+            { type: 'Commercial', country: 'Global', name: 'EvaluatePharma', desc: 'Commercial intelligence and consensus forecasting for the pharmaceutical industry.' },
+            { type: 'Commercial', country: 'Global', name: 'Citeline', desc: 'R&amp;D intelligence, clinical trial data, and drug pipeline tracking (formerly Informa).' },
+            { type: 'Commercial', country: 'Global', name: 'Clarivate (Cortellis)', desc: 'Life sciences intelligence, regulatory, and competitive landscape data.' },
+            { type: 'Commercial', country: 'Global', name: 'DrugBank', desc: 'Comprehensive molecular information &amp; drug targets.' },
+            { type: 'Commercial', country: 'Global', name: 'GlobalData Healthcare', desc: 'Market analysis, epidemiology, and market access intelligence.' },
+            { type: 'Commercial', country: 'Global', name: 'Springer AdisInsight', desc: 'Database for drug research, development, and therapy.' },
+            { type: 'Commercial', country: 'Global', name: 'Fitch Solutions', desc: 'Pharmaceutical and healthcare market risk analysis.' },
+            { type: 'Commercial', country: 'Global', name: 'Bloomberg Intelligence', desc: 'Real-time financial and market data for healthcare sectors.' },
+            { type: 'Commercial', country: 'Global', name: 'Statista Health', desc: 'Statistical data on the global pharmaceutical and medical technology market.' },
+
+            // === KEY REGULATORY &amp; MEDICAL BODIES (Top 20 Markets) ===
+
+            // North America
+            { type: 'Regulatory', country: 'USA', name: 'FDA', desc: 'Food &amp; Drug Administration.' },
+            { type: 'Assoc', country: 'USA', name: 'AMA', desc: 'American Medical Association.' },
+            { type: 'Journal', country: 'USA', name: 'NEJM', desc: 'New England Journal of Medicine.' },
+            { type: 'Regulatory', country: 'Canada', name: 'Health Canada', desc: 'Federal department responsible for health.' },
+            { type: 'Assoc', country: 'Canada', name: 'CMA', desc: 'Canadian Medical Association.' },
+
+            // Europe (EU5 + Key)
+            { type: 'Regulatory', country: 'EU', name: 'EMA', desc: 'European Medicines Agency (Centralized).' },
+            { type: 'Regulatory', country: 'Germany', name: 'BfArM', desc: 'Federal Institute for Drugs and Medical Devices.' },
+            { type: 'Assoc', country: 'Germany', name: 'BÄK', desc: 'German Medical Association (Bundesärztekammer).' },
+            { type: 'Regulatory', country: 'France', name: 'ANSM', desc: 'National Agency for Safety of Medicines.' },
+            { type: 'Assoc', country: 'France', name: 'CNOM', desc: 'French Medical Council (Ordre des Médecins).' },
+            { type: 'Regulatory', country: 'UK', name: 'MHRA', desc: 'Medicines and Healthcare products Regulatory Agency.' },
+            { type: 'Assoc', country: 'UK', name: 'BMA', desc: 'British Medical Association.' },
+            { type: 'Regulatory', country: 'Italy', name: 'AIFA', desc: 'Italian Medicines Agency.' },
+            { type: 'Regulatory', country: 'Spain', name: 'AEMPS', desc: 'Spanish Agency for Medicines.' },
+            { type: 'Regulatory', country: 'Switzerland', name: 'Swissmedic', desc: 'Swiss Agency for Therapeutic Products.' },
+            { type: 'Assoc', country: 'Switzerland', name: 'FMH', desc: 'Foederatio Medicorum Helveticorum.' },
+            { type: 'Regulatory', country: 'Netherlands', name: 'CBG-MEB', desc: 'Medicines Evaluation Board.' },
+            { type: 'Regulatory', country: 'Sweden', name: 'Läkemedelsverket', desc: 'Medical Products Agency.' },
+            { type: 'Regulatory', country: 'Denmark', name: 'DKMA', desc: 'Danish Medicines Agency.' },
+            { type: 'Regulatory', country: 'Ireland', name: 'HPRA', desc: 'Health Products Regulatory Authority.' },
+            { type: 'Regulatory', country: 'Belgium', name: 'FAMHP', desc: 'Federal Agency for Medicines.' },
+            { type: 'Regulatory', country: 'Austria', name: 'BASG', desc: 'Federal Office for Safety in Health Care.' },
+            { type: 'Regulatory', country: 'Poland', name: 'URPL', desc: 'Office for Registration of Medicinal Products.' },
+            { type: 'Regulatory', country: 'Portugal', name: 'INFARMED', desc: 'Authority of Medicines and Health Products.' },
+
+            // Asia - Pacific (Advanced Markets)
+            { type: 'Regulatory', country: 'Japan', name: 'PMDA', desc: 'Pharmaceuticals and Medical Devices Agency.' },
+            { type: 'Assoc', country: 'Japan', name: 'JMA', desc: 'Japan Medical Association.' },
+            { type: 'Regulatory', country: 'South Korea', name: 'MFDS', desc: 'Ministry of Food and Drug Safety.' },
+            { type: 'Assoc', country: 'South Korea', name: 'KMA', desc: 'Korean Medical Association.' },
+            { type: 'Regulatory', country: 'Australia', name: 'TGA', desc: 'Therapeutic Goods Administration.' },
+            { type: 'Regulatory', country: 'Singapore', name: 'HSA', desc: 'Health Sciences Authority.' },
+            { type: 'Regulatory', country: 'Taiwan', name: 'TFDA', desc: 'Taiwan Food and Drug Administration.' },
+
+            // Latin America (Key)
+            { type: 'Regulatory', country: 'Brazil', name: 'ANVISA', desc: 'Brazilian Health Regulatory Agency.' },
+            { type: 'Regulatory', country: 'Mexico', name: 'COFEPRIS', desc: 'Federal Commission for Protection against Sanitary Risks.' },
+
+            // Global / Cross-Cutting
+            { type: 'Regulatory', country: 'Global', name: 'WHO', desc: 'World Health Organization.' },
+            { type: 'Regulatory', country: 'Global', name: 'ICH', desc: 'International Council for Harmonisation.' },
+            { type: 'Journal', country: 'Global', name: 'The Lancet', desc: 'Leading international medical journal.' },
+            { type: 'Database', country: 'Global', name: 'ClinicalTrials.gov', desc: 'US NLM database of private and public clinical studies.' },
+            { type: 'Database', country: 'Global', name: 'PubMed', desc: 'Biomedical literature.' },
+            { type: 'Database', country: 'Global', name: 'Cochrane', desc: 'Systematic reviews.' }
+
+        ];
+
+        // --- STATE ---
+        let state = {
+            type: 'all',
+            country: 'all',
+            search: ''
+        };
+
+        const grid = document.getElementById('resourcesGrid');
+        const countrySelect = document.getElementById('countrySelect');
+        const searchInput = document.getElementById('searchInput');
+        const modal = document.getElementById('addModal');
+
+        // --- INIT FILTERS ---
+        function initCountryFilter() {
+            const allCountries = [...new Set(resources.map(r => r.country))].sort();
+            const priority = ['Global', 'USA', 'EU', 'UK', 'Switzerland', 'Japan', 'Germany', 'France'];
+            const others = allCountries.filter(c => !priority.includes(c));
+            const sortedCountries = [...priority.filter(c => allCountries.includes(c)), ...others];
+
+            countrySelect.innerHTML = '<option value="all">Global &amp; All Countries</option>';
+            sortedCountries.forEach(c => {
+                if (c === 'Global') return;
+                const opt = document.createElement('option');
+                opt.value = c;
+                opt.innerText = c;
+                countrySelect.appendChild(opt);
+            });
+        }
+
+        // --- RENDER ---
+        function render() {
+            grid.innerHTML = '';
+
+            const filtered = resources.filter(res => {
+                // 1. Type Match
+                const typeMatch = state.type === 'all' || res.type === state.type;
+
+                // 2. Country Match
+                let countryMatch = true;
+                if (state.country !== 'all') {
+                    countryMatch = (res.country === state.country || res.country === 'Global' || (res.country === 'EU' && isEuMember(state.country)));
+                }
+
+                // 3. Search Match
+                let searchMatch = true;
+                if (state.search) {
+                    const query = state.search.toLowerCase();
+                    searchMatch = res.name.toLowerCase().includes(query) || res.desc.toLowerCase().includes(query);
+                }
+
+                return typeMatch && countryMatch && searchMatch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '<div >No resources found matching your criteria.</div>';
+            }
+
+            filtered.forEach(res => {
+                const card = document.createElement('div');
+                card.className = 'feature-card';
+
+                let badgeClass = 'badge-default';
+                if (res.type === 'Regulatory') badgeClass = 'badge-regulatory';
+                if (res.type === 'Journal') badgeClass = 'badge-journal';
+                if (res.type === 'Commercial') badgeClass = 'badge-commercial';
+                if (res.type === 'Education') badgeClass = 'badge-education';
+
+                card.innerHTML = `
+                    <div >
+                        <span class="badge badge-country" >${res.country}</span>
+                        <span class="badge ${badgeClass}" >${res.type}</span>
+                    </div>
+                    <h3 class="text-xl mb-1">${res.name}</h3>
+                    <p >${res.desc}</p>
+                    <a href="#" class="mt-auto" >Access Resource <i class="fa-solid fa-external-link-alt ml-1"></i></a>
+                `;
+                grid.appendChild(card);
+            });
+
+            // Append "Add New" Card (Only if no search is active, or keep it always? User preference. Let's keep it always for utility unless strictly searching)
+            if (!state.search && state.type === 'all' && state.country === 'all') {
+                const addCard = document.createElement('div');
+                addCard.className = 'feature-card add-new';
+                addCard.onclick = openModal;
+                addCard.innerHTML = `
+                    <i class="fa-solid fa-plus add-icon"></i>
+                    <h3 class="text-lg">Add Resource</h3>
+                    <p class="text-sm text-muted text-center">Connect new knowledge to the network</p>
+                `;
+                grid.appendChild(addCard);
+            }
+        }
+
+        function isEuMember(country) {
+            const euMembers = ['Germany', 'France', 'Italy', 'Spain', 'Netherlands', 'Sweden', 'Denmark', 'Ireland', 'Belgium', 'Austria', 'Poland', 'Portugal'];
+            return euMembers.includes(country);
+        }
+
+        // --- INTERACTION ---
+        function openModal() {
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        function addNewResource() {
+            const name = document.getElementById('newResName').value;
+            const type = document.getElementById('newResType').value;
+            const country = document.getElementById('newResCountry').value;
+
+            if (name && type && country) {
+                resources.push({
+                    type: type,
+                    country: country,
+                    name: name,
+                    desc: 'User added resource.'
+                });
+                initCountryFilter();
+                render();
+                closeModal();
+                document.getElementById('newResName').value = '';
+                document.getElementById('newResCountry').value = '';
+            }
+        }
+
+        // --- EVENT LISTENERS ---
+        document.querySelectorAll('.kb-tab').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.kb-tab').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                state.type = e.target.dataset.type;
+                render();
+            });
+        });
+
+        countrySelect.addEventListener('change', (e) => {
+            state.country = e.target.value;
+            render();
+        });
+
+        searchInput.addEventListener('input', (e) => {
+            state.search = e.target.value;
+            render();
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        // Init
+        initCountryFilter();
+        render();
+
+    </script>
+</body>
+
+</html>

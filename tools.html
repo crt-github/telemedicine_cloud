@@ -4,191 +4,260 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medical Tools & Resources | TeleMed Cloud</title>
+    <title>Connected Health Tools | TeleMed Cloud</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
+    <style>
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .tool-card {
+            background: linear-gradient(135deg, #1e293b 0%, #1e3a8a 100%);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .tool-icon-wrapper {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .icon-diabetes {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+
+        .icon-cardio {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+
+        .icon-lab {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+        }
+
+        .icon-respiratory {
+            background: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+        }
+
+        .icon-weight {
+            background: rgba(139, 92, 246, 0.1);
+            color: #8b5cf6;
+        }
+
+        .icon-sleep {
+            background: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+        }
+
+        .viz-preview {
+            height: 60px;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            margin-top: 1rem;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+            gap: 2px;
+            padding: 0 5px;
+        }
+
+        .viz-bar {
+            flex: 1;
+            background: var(--primary);
+            opacity: 0.5;
+            border-radius: 2px 2px 0 0;
+        }
+
+        .live-tag {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            padding: 2px 8px;
+            border-radius: 99px;
+            font-size: 0.7rem;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+    </style>
 </head>
 
 <body>
 
-    <!-- Header -->
-    <header>
-        <div class="container nav-container">
-            <a href="index.html" class="logo">
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <a href="index.html" class="logo mb-1">
                 <i class="fa-solid fa-heart-pulse icon-secondary"></i>
-                TeleMed<span>Cloud</span>
+                TeleMed
             </a>
-            <nav>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="profile.html">Profile</a></li>
-                    <li><a href="tools.html" class="active">Tools</a></li>
-                    <li><a href="index.html#features">Features</a></li>
-                    <li><a href="index.html#contact" class="btn btn-primary btn-header-cta">Get Started</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
 
-    <section class="tools-section container">
+            <ul class="sidebar-nav">
+                <li><a href="dashboard.html"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
+                <li><a href="scheduling.html"><i class="fa-regular fa-calendar-check"></i> Appointments</a></li>
+                <li><a href="video-call.html"><i class="fa-solid fa-video"></i> Video Consult</a></li>
+                <li><a href="medical-forms.html"><i class="fa-solid fa-file-medical"></i> Patient Records</a></li>
+                <li><a href="tools.html" class="active"><i class="fa-solid fa-toolbox"></i> Tools</a></li>
+                <li><a href="knowledge.html"><i class="fa-solid fa-book-medical"></i> Knowledge</a></li>
+                <li><a href="ai-assistant.html"><i class="fa-solid fa-robot"></i> AI Assistant</a></li>
+                <li class="mt-auto"><a href="login.html"><i class="fa-solid fa-right-from-bracket"></i>
+                        Logout</a></li>
+            </ul>
+        </aside>
 
-        <!-- NMR Widget -->
-        <h2 class="mb-1">NMR Spectrum Analyzer <span class="tool-version">Web Interface v1.0</span></h2>
-        <div class="nmr-widget">
-            <div class="nmr-screen" id="nmrScreen">
-                <div class="nmr-signal" id="nmrSignal">
-                    <!-- Bars generated by JS -->
+        <main class="main-content">
+            <div class="mb-2">
+                <h2 class="page-header-title">Connected Health &amp; IoT Data</h2>
+                <p class="text-muted">Real-time patient measurements, wearable data, and lab integrations.</p>
+            </div>
+
+            <div class="tools-grid">
+
+                <!-- 1. Diabetes / CGM -->
+                <div class="tool-card h-40">
+                    <span class="live-tag"><i class="fa-solid fa-circle text-[6px] mr-1"></i>Live Stream</span>
+                    <div class="tool-icon-wrapper icon-diabetes">
+                        <i class="fa-solid fa-droplet"></i>
+                    </div>
+                    <h3 class="text-xl mb-1">Diabetes Management</h3>
+                    <p class="text-sm text-muted">Continuous Glucose Monitoring (CGM) &amp; Insulin Pump Data.</p>
+                    <div class="viz-preview">
+                        <!-- Fake Bars -->
+                        <div class="viz-bar" ></div>
+                        <div class="viz-bar" ></div>
+                        <div class="viz-bar" ></div>
+                        <div class="viz-bar" ></div>
+                        <div class="viz-bar" ></div>
+                    </div>
+                    <button type="button" class="btn btn-outline w-full mt-4 text-sm">View Glucose Logs</button>
                 </div>
-                <div class="nmr-status-overlay">
-                    STATUS: READY<br>
-                    FREQ: 500 MHz
+
+                <!-- 2. Cardiac / Wearables -->
+                <div class="tool-card h-40">
+                    <span class="live-tag">Synced 2m ago</span>
+                    <div class="tool-icon-wrapper icon-cardio">
+                        <i class="fa-solid fa-heart-pulse"></i>
+                    </div>
+                    <h3 class="text-xl mb-1">Cardiac Telemetry</h3>
+                    <p class="text-sm text-muted">Apple Watch/Fitbit ECG, Heart Rate Variability &amp; BP.</p>
+                    <div class="viz-preview flex items-center justify-center">
+                        <i class="fa-solid fa-wave-square text-primary animate-pulse"></i>
+                    </div>
+                    <button type="button" class="btn btn-outline w-full mt-4 text-sm">Analyze ECG</button>
+                </div>
+
+                <!-- 3. Lab Results -->
+                <div class="tool-card h-40">
+                    <span class="live-tag" >New Report</span>
+                    <div class="tool-icon-wrapper icon-lab">
+                        <i class="fa-solid fa-flask"></i>
+                    </div>
+                    <h3 class="text-xl mb-1">Lab Results</h3>
+                    <p class="text-sm text-muted">Blood Chemistry, Lipid Panels, Hematology (FHIR/HL7).</p>
+                    <div class="mt-4 p-2 bg-black/20 rounded text-xs">
+                        <div class="flex justify-between mb-1"><span>HbA1c</span> <span
+                                class="text-success font-bold">5.7%</span></div>
+                        <div class="flex justify-between"><span>Cholesterol</span> <span
+                                class="text-warning font-bold">210</span></div>
+                    </div>
+                    <button type="button" class="btn btn-outline w-full mt-4 text-sm">Open Lab PDF</button>
+                </div>
+
+                <!-- 4. Respiratory -->
+                <div class="tool-card h-40">
+                    <div class="tool-icon-wrapper icon-respiratory">
+                        <i class="fa-solid fa-lungs"></i>
+                    </div>
+                    <h3 class="text-xl mb-1">Respiratory / SpO2</h3>
+                    <p class="text-sm text-muted">Pulse Oximetry and Spirometry remote readings.</p>
+                    <button type="button" class="btn btn-outline w-full mt-auto" >View Trends</button>
+                </div>
+
+                <!-- 5. Smart Scale / Body Comp -->
+                <div class="tool-card h-40">
+                    <div class="tool-icon-wrapper icon-weight">
+                        <i class="fa-solid fa-weight-scale"></i>
+                    </div>
+                    <h3 class="text-xl mb-1">Biometrics &amp; Scale</h3>
+                    <p class="text-sm text-muted">Weight, BMI, Body Composition history.</p>
+                    <button type="button" class="btn btn-outline w-full mt-auto" >View History</button>
+                </div>
+
+                <!-- 6. Sleep Tracking -->
+                <div class="tool-card h-40">
+                    <div class="tool-icon-wrapper icon-sleep">
+                        <i class="fa-solid fa-bed"></i>
+                    </div>
+                    <h3 class="text-xl mb-1">Sleep Architecture</h3>
+                    <p class="text-sm text-muted">REM cycles, Oxygen variation during sleep.</p>
+                    <button type="button" class="btn btn-outline w-full mt-auto" >Sleep Report</button>
+                </div>
+
+            </div>
+
+            <!-- SPECIALIST TOOLS SECTION (Preserved) -->
+            <div class="section-header text-left mt-8 mb-4" >
+                <h2 class="text-2xl">Specialist Analysis Tools</h2>
+                <p class="text-muted">Advanced diagnostic modules for specific pathologies.</p>
+            </div>
+
+            <div class="tools-grid">
+                <!-- NMR Analyzer -->
+                <div class="tool-card h-40">
+                    <div class="tool-icon-wrapper" >
+                        <i class="fa-solid fa-microscope"></i>
+                    </div>
+                    <h3 class="text-xl mb-1">NMR Spectroscopy</h3>
+                    <p class="text-sm text-muted">Analyze 500MHz-900MHz nuclear magnetic resonance data.</p>
+                    <button type="button" onclick="window.location.href='#'" class="btn btn-primary w-full mt-4">Launch
+                        Analyzer</button>
+                </div>
+
+                <!-- Clinical Calc -->
+                <div class="tool-card h-40">
+                    <div class="tool-icon-wrapper" >
+                        <i class="fa-solid fa-calculator"></i>
+                    </div>
+                    <h3 class="text-xl mb-1">Clinical Calculators</h3>
+                    <p class="text-sm text-muted">BMI, GFR, CHA2DS2-VASc, and dosage converters.</p>
+                    <button type="button" class="btn btn-outline w-full mt-4">Open List</button>
                 </div>
             </div>
-            <div class="nmr-controls">
-                <button class="control-btn" id="startScanBtn">Start Scan</button>
-                <button class="control-btn" onclick="resetScan()">Reset</button>
-                <button class="control-btn">Export Data</button>
-                <div class="gain-control">
-                    <label for="gain-control">Gain:</label>
-                    <input type="range" id="gain-control" min="1" max="100" value="50" aria-label="Gain Control">
-                </div>
-            </div>
-        </div>
+        </main>
+    </div>
 
-        <!-- Resources Section -->
-        <div class="section-header resources-header">
-            <h2>Knowledge Resources</h2>
-            <p>Curated list of 25 essential medical knowledge transfer resources.</p>
-        </div>
-
-        <div class="resources-grid" id="resourcesGrid">
-            <!-- Populated by JS -->
-        </div>
-
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container footer-content">
-            <div class="logo footer-logo">
-                TeleMed<span>Cloud</span>
-            </div>
-            <div class="social-links">
-                <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
-                <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
-                <a href="https://github.com/crt-github/telemedicine_cloud" target="_blank" rel="noopener noreferrer"
-                    aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
-            </div>
-        </div>
-    </footer>
-
-    <script src="dist/client/main.js"></script>
+    <!-- Auth Check -->
     <script>
-        // Inline script for tool-specific logic (or move to main.js if preferred)
-
-        // 1. NMR Simulation
-        const signalContainer = document.getElementById('nmrSignal');
-        const numberOfBars = 60;
-
-        // Init flat bars
-        for (let i = 0; i < numberOfBars; i++) {
-            const bar = document.createElement('div');
-            bar.className = 'signal-bar';
-            bar.style.height = '2px';
-            signalContainer.appendChild(bar);
-        }
-
-        document.getElementById('startScanBtn').addEventListener('click', function () {
-            this.classList.toggle('active');
-            if (this.classList.contains('active')) {
-                this.innerText = 'Scanning...';
-                startSimulation();
-            } else {
-                this.innerText = 'Start Scan';
-                stopSimulation();
+        (function checkAuth() {
+            const token = localStorage.getItem('authToken');
+            if (!token) {
+                window.location.href = 'login.html';
             }
-        });
-
-        let scanInterval;
-        function startSimulation() {
-            scanInterval = setInterval(() => {
-                const bars = document.querySelectorAll('.signal-bar');
-                bars.forEach(bar => {
-                    // Random height simulation
-                    const height = Math.random() * 80 + 5;
-                    // Make some peaks
-                    bar.style.height = height + '%';
-                });
-            }, 100);
-        }
-
-        function stopSimulation() {
-            clearInterval(scanInterval);
-            // Simulate a "result" spectrum with distinct peaks
-            const bars = document.querySelectorAll('.signal-bar');
-            bars.forEach((bar, index) => {
-                // simple predictable peaks
-                if ((index > 10 && index < 15) || (index > 40 && index < 45)) {
-                    bar.style.height = (60 + Math.random() * 30) + '%';
-                } else {
-                    bar.style.height = (5 + Math.random() * 10) + '%';
-                }
-            });
-        }
-
-        function resetScan() {
-            clearInterval(scanInterval);
-            document.getElementById('startScanBtn').classList.remove('active');
-            document.getElementById('startScanBtn').innerText = 'Start Scan';
-            const bars = document.querySelectorAll('.signal-bar');
-            bars.forEach(bar => {
-                bar.style.height = '2px';
-            });
-        }
-
-        // 2. Generate Resources
-        const resources = [
-            { cat: 'Journal', name: 'PubMed Central', desc: 'Free archive of biomedical and life sciences journal literature.' },
-            { cat: 'Database', name: 'ClinicalTrials.gov', desc: 'Registry of significantly supported clinical studies.' },
-            { cat: 'Tool', name: 'MedCalc', desc: 'Medical calculator for complex formulas.' },
-            { cat: 'Knowledge', name: 'UpToDate', desc: 'Evidence-based clinical decision support.' },
-            { cat: 'Journal', name: 'The Lancet', desc: 'International medical journal.' },
-            { cat: 'Database', name: 'OMIM', desc: 'Online Mendelian Inheritance in Man.' },
-            { cat: 'Tool', name: 'Epocrates', desc: 'Point-of-care medical apps.' },
-            { cat: 'Knowledge', name: 'Merck Manuals', desc: 'Standard medical reference tables.' },
-            { cat: 'Education', name: 'Khan Academy Medicine', desc: 'Free educational videos on health.' },
-            { cat: 'Research', name: 'ResearchGate', desc: 'Network for scientists and researchers.' },
-            { cat: 'Database', name: 'DrugBank', desc: 'Comprehensive molecular information on drugs.' },
-            { cat: 'Tool', name: 'Read by QxMD', desc: 'Keep up with new medical and scientific research.' },
-            { cat: 'Journal', name: 'NEJM', desc: 'New England Journal of Medicine.' },
-            { cat: 'News', name: 'Medscape', desc: 'Medical news and education.' },
-            { cat: 'Database', name: 'Cochrane Library', desc: 'Collection of databases in medicine.' },
-            { cat: 'Tool', name: 'Doximity', desc: 'Professional network for physicians.' },
-            { cat: 'Education', name: 'Osmosis', desc: 'Visual learning platform for healthcare.' },
-            { cat: 'Journal', name: 'BMJ', desc: 'British Medical Journal.' },
-            { cat: 'Search', name: 'Google Scholar', desc: 'Broadly search for scholarly literature.' },
-            { cat: 'Database', name: 'ChemSpider', desc: 'Structure-centric community for chemists.' },
-            { cat: 'Tool', name: 'MDCalc', desc: 'Clinical calculators & algorithms.' },
-            { cat: 'Knowledge', name: 'CDC', desc: 'Centers for Disease Control and Prevention.' },
-            { cat: 'Database', name: 'WHO Data', desc: 'Global Health Observatory data.' },
-            { cat: 'Tool', name: 'Figure 1', desc: 'Case sharing platform for healthcare pros.' },
-            { cat: 'News', name: 'Medical News Today', desc: 'Market leader for medical news.' }
-        ];
-
-        const grid = document.getElementById('resourcesGrid');
-        resources.forEach(res => {
-            const card = document.createElement('div');
-            card.className = 'resource-card';
-            card.innerHTML = `
-                <div class="resource-category">${res.cat}</div>
-                <h3>${res.name}</h3>
-                <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">${res.desc}</p>
-                <a href="#" style="color: var(--primary); font-size: 0.9rem; text-decoration: none;">Access Resource &rarr;</a>
-            `;
-            grid.appendChild(card);
-        });
-
+        })();
     </script>
 </body>
 

@@ -1,0 +1,279 @@
+(node:18360) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Running Pa11y on 2 URLs:
+ > file:///C:/Users/tcori/telemedicine/login.html - 16 errors
+ > file:///C:/Users/tcori/telemedicine/index.html - 20 errors
+
+Errors in file:///C:/Users/tcori/telemedicine/login.html:
+
+ • Page must have means to bypass repeated blocks
+   (https://dequeuniversity.com/rules/axe/4.10/bypass?application=axeAPI)
+
+   (html)
+
+   <html lang="en"><head> <meta charset="UTF-8...</html>
+
+ • Elements must meet minimum color contrast ratio thresholds
+   (https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=axeAPI)
+
+   (html > body > div > div:nth-child(2) > div:nth-child(1))
+
+   <div class="logo"> <i class="fa-s...</div>
+
+ • Elements must meet minimum color contrast ratio thresholds
+   (https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=axeAPI)
+
+   (html > body > div > div:nth-child(2) > div:nth-child(1) > span)
+
+   <span>TeleMed</span>
+
+ • Elements must meet minimum color contrast ratio thresholds
+   (https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=axeAPI)
+
+   (#loginForm > div:nth-child(1) > label)
+
+   <label class="form-label">Email Address</label>
+
+ • Elements must meet minimum color contrast ratio thresholds
+   (https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=axeAPI)
+
+   (#email)
+
+   <input type="email" id="email" class="form-input"
+   placeholder="doctor@hospital.com" required="">
+
+ • Elements must meet minimum color contrast ratio thresholds
+   (https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=axeAPI)
+
+   (#loginForm > div:nth-child(2) > label)
+
+   <label class="form-label">Password</label>
+
+ • Elements must meet minimum color contrast ratio thresholds
+   (https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=axeAPI)
+
+   (#password)
+
+   <input type="password" id="password" class="form-input"
+   placeholder="••••••••" required="">
+
+ • Elements must meet minimum color contrast ratio thresholds
+   (https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=axeAPI)
+
+   (#loginForm > div:nth-child(3) > label)
+
+   <label class="auth-remember-label"> <input...</label>
+
+ • Elements must meet minimum color contrast ratio thresholds
+   (https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=axeAPI)
+
+   (#loginForm > div:nth-child(3) > a)
+
+   <a href="#" class="auth-forgot-link">Forgot password?</a>
+
+ • Elements must meet minimum color contrast ratio thresholds
+   (https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=axeAPI)
+
+   (#loginForm > button)
+
+   <button type="submit" class="btn btn-primary w-full">Sign In</button>
+
+ • Elements must meet minimum color contrast ratio thresholds
+   (https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=axeAPI)
+
+   (html > body > div > div:nth-child(2) > div:nth-child(5))
+
+   <div class="divider">OR LOGIN WITH</div>
+
+ • Elements must meet minimum color contrast ratio thresholds
+   (https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=axeAPI)
+
+   (html > body > div > div:nth-child(2) > button:nth-child(6) > span)
+
+   <span>Face ID Recognition</span>
+
+ • Elements must meet minimum color contrast ratio thresholds
+   (https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=axeAPI)
+
+   (html > body > div > div:nth-child(2) > button:nth-child(7) > span)
+
+   <span>Touch ID / Fingerprint</span>
+
+ • Elements must meet minimum color contrast ratio thresholds
+   (https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=axeAPI)
+
+   (html > body > div > div:nth-child(2) > p)
+
+   <p class="auth-signup-text"> Don't have an ...</p>
+
+ • Elements must meet minimum color contrast ratio thresholds
+   (https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=axeAPI)
+
+   (html > body > div > div:nth-child(2) > p > a)
+
+   <a href="#" class="auth-signup-link">Contact Admin</a>
+
+ • Links must be distinguishable without relying on color
+   (https://dequeuniversity.com/rules/axe/4.10/link-in-text-block?application=axeAPI)
+
+   (html > body > div > div:nth-child(2) > p > a)
+
+   <a href="#" class="auth-signup-link">Contact Admin</a>
+
+Errors in file:///C:/Users/tcori/telemedicine/index.html:
+
+ • Elements must meet minimum color contrast ratio thresholds
+   (https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=axeAPI)
+
+   (html > body > header > div > a > span)
+
+   <span>Cloud</span>
+
+ • Elements must meet minimum color contrast ratio thresholds
+   (https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=axeAPI)
+
+   (html > body > header > div > nav > ul > li:nth-child(2) > a)
+
+   <a href="dashboard.html">Dashboard</a>
+
+ • Elements must meet minimum color contrast ratio thresholds
+   (https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=axeAPI)
+
+   (html > body > header > div > nav > ul > li:nth-child(7) > a)
+
+   <a href="index.html#contact" class="btn btn-primary btn-header-cta">Get
+   Started</a>
+
+ • Elements must meet minimum color contrast ratio thresholds
+   (https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=axeAPI)
+
+   (html > body > section:nth-child(2) > div:nth-child(3) > div:nth-child(1) >
+   h1 > span)
+
+   <span>Reimagined</span>
+
+ • Elements must meet minimum color contrast ratio thresholds
+   (https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=axeAPI)
+
+   (html > body > section:nth-child(2) > div:nth-child(3) > div:nth-child(1) >
+   p)
+
+   <p>Global, infinite-scale telemedi...</p>
+
+ • Elements must meet minimum color contrast ratio thresholds
+   (https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=axeAPI)
+
+   (html > body > section:nth-child(2) > div:nth-child(3) > div:nth-child(1) >
+   div > a:nth-child(1))
+
+   <a href="login.html" class="btn btn-primary">TeleMed Login</a>
+
+ • Elements must meet minimum color contrast ratio thresholds
+   (https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=axeAPI)
+
+   (html > body > section:nth-child(2) > div:nth-child(3) > div:nth-child(1) >
+   div > a:nth-child(2))
+
+   <a href="#" class="btn btn-outline"><i class="fa-solid fa-play icon...</a>
+
+ • Elements must meet minimum color contrast ratio thresholds
+   (https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=axeAPI)
+
+   (html > body > section:nth-child(2) > div:nth-child(3) > div:nth-child(2) >
+   div > div:nth-child(1) > div:nth-child(1))
+
+   <div class="font-semibold">Live Consultations</div>
+
+ • Elements must meet minimum color contrast ratio thresholds
+   (https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=axeAPI)
+
+   (html > body > section:nth-child(2) > div:nth-child(3) > div:nth-child(2) >
+   div > div:nth-child(2) > div:nth-child(1) > div:nth-child(1))
+
+   <div class="stat-label">Active Doctors</div>
+
+ • Elements must meet minimum color contrast ratio thresholds
+   (https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=axeAPI)
+
+   (html > body > section:nth-child(2) > div:nth-child(3) > div:nth-child(2) >
+   div > div:nth-child(2) > div:nth-child(1) > div:nth-child(2))
+
+   <div class="stat-value">1,240</div>
+
+ • Elements must meet minimum color contrast ratio thresholds
+   (https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=axeAPI)
+
+   (html > body > section:nth-child(2) > div:nth-child(3) > div:nth-child(2) >
+   div > div:nth-child(2) > div:nth-child(2) > div:nth-child(1))
+
+   <div class="stat-label">Patients Waiting</div>
+
+ • Elements must meet minimum color contrast ratio thresholds
+   (https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=axeAPI)
+
+   (html > body > section:nth-child(2) > div:nth-child(3) > div:nth-child(2) >
+   div > div:nth-child(2) > div:nth-child(2) > div:nth-child(2))
+
+   <div class="stat-value">85</div>
+
+ • Elements must meet minimum color contrast ratio thresholds
+   (https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=axeAPI)
+
+   (html > body > section:nth-child(2) > div:nth-child(3) > div:nth-child(2) >
+   div > div:nth-child(2) > div:nth-child(3) > div:nth-child(1))
+
+   <div class="stat-label">Avg. Wait Time</div>
+
+ • Elements must meet minimum color contrast ratio thresholds
+   (https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=axeAPI)
+
+   (html > body > section:nth-child(2) > div:nth-child(3) > div:nth-child(2) >
+   div > div:nth-child(2) > div:nth-child(3) > div:nth-child(2))
+
+   <div class="stat-value">2m 15s</div>
+
+ • Elements must meet minimum color contrast ratio thresholds
+   (https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=axeAPI)
+
+   (html > body > section:nth-child(2) > div:nth-child(3) > div:nth-child(2) >
+   div > div:nth-child(2) > div:nth-child(4) > div:nth-child(1))
+
+   <div class="stat-label">Satisfaction</div>
+
+ • Elements must meet minimum color contrast ratio thresholds
+   (https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=axeAPI)
+
+   (html > body > section:nth-child(2) > div:nth-child(3) > div:nth-child(2) >
+   div > div:nth-child(2) > div:nth-child(4) > div:nth-child(2))
+
+   <div class="stat-value">4.9/5</div>
+
+ • Elements must meet minimum color contrast ratio thresholds
+   (https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=axeAPI)
+
+   (#features > div > div:nth-child(1) > h2)
+
+   <h2>Why Choose TeleMed Cloud?</h2>
+
+ • Elements must meet minimum color contrast ratio thresholds
+   (https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=axeAPI)
+
+   (#features > div > div:nth-child(1) > p)
+
+   <p>Built for reliability, security...</p>
+
+ • Elements must meet minimum color contrast ratio thresholds
+   (https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=axeAPI)
+
+   (#contact > div > form > button)
+
+   <button type="submit" class="btn btn-primary">Get Started Now</button>
+
+ • Elements must meet minimum color contrast ratio thresholds
+   (https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=axeAPI)
+
+   (html > body > footer > div > div:nth-child(1) > span)
+
+   <span>Cloud</span>
+
+✘ 0/2 URLs passed

@@ -24,6 +24,9 @@
                 <li><a href="scheduling.html"><i class="fa-regular fa-calendar-check"></i> Appointments</a></li>
                 <li><a href="video-call.html"><i class="fa-solid fa-video"></i> Video Consult</a></li>
                 <li><a href="medical-forms.html"><i class="fa-solid fa-file-medical"></i> Patient Records</a></li>
+                <li><a href="tools.html"><i class="fa-solid fa-toolbox"></i> Tools</a></li>
+                <li><a href="knowledge.html"><i class="fa-solid fa-book-medical"></i> Knowledge</a></li>
+                <li><a href="ai-assistant.html"><i class="fa-solid fa-robot"></i> AI Assistant</a></li>
                 <li class="mt-auto"><a href="login.html"><i class="fa-solid fa-right-from-bracket"></i>
                         Logout</a></li>
             </ul>
@@ -34,14 +37,14 @@
             <header class="dashboard-header">
                 <div class="nav-container">
                     <div>
-                        <h2 class="user-name-display">Welcome, Dr. Smith</h2>
+                        <h2 class="page-header-title">Welcome, Dr. Smith</h2>
                         <span class="text-sm-muted">Cardiology Dept</span>
                     </div>
 
-                    <!-- Notification & Profile Placeholders -->
+                    <!-- Notification &amp; Profile Placeholders -->
                     <div class="flex-center-gap">
                         <div class="relative">
-                            <button class="btn btn-outline btn-icon-circle" aria-label="Notifications">
+                            <button type="button" class="btn btn-outline btn-icon-circle" aria-label="Notifications">
                                 <i class="fa-regular fa-bell"></i>
                             </button>
                             <span class="notification-badge">3</span>
@@ -69,22 +72,37 @@
                     <div class="stat-value">5</div>
                     <div class="stat-trend neutral">Urgent: 1</div>
                 </div>
-                <div class="dashboard-card">
-                    <div class="stat-label">Next Appt</div>
+                <!-- Linked Calendar Card -->
+                <div class="dashboard-card cursor-pointer" onclick="openCalendarModal()">
+                    <div class="div flex justify-between">
+                        <div class="stat-label">Next Appt</div>
+                        <i class="fa-solid fa-sync text-[10px] text-muted hover:text-white" title="Sync Calendar"></i>
+                    </div>
                     <div class="stat-value text-lg">14:30</div>
-                    <div class="stat-trend secondary">Video Call</div>
+                    <div class="stat-trend secondary">Video Call <span class="text-[10px] opacity-70 ml-1">(Google
+                            Cal)</span></div>
                 </div>
-                <div class="dashboard-card">
-                    <div class="stat-label">Messages</div>
+                <!-- Linked Messages Card -->
+                <div class="dashboard-card cursor-pointer" onclick="openMailModal()">
+                    <div class="div flex justify-between">
+                        <div class="stat-label">Messages</div>
+                        <i class="fa-solid fa-envelope-open-text text-[10px] text-muted hover:text-white"
+                            title="Open Mail"></i>
+                    </div>
                     <div class="stat-value">3</div>
-                    <div class="stat-trend primary">Unread</div>
+                    <div class="stat-trend primary">Unread <span class="text-[10px] opacity-70 ml-1">(Gmail)</span>
+                    </div>
                 </div>
             </div>
 
             <div class="table-container">
                 <div class="table-header">
                     <h3 class="text-xl">Upcoming Appointments</h3>
-                    <a href="scheduling.html" class="btn btn-outline btn-sm">View All</a>
+                    <div class="flex gap-2">
+                        <button type="button" onclick="openApptModal()" class="btn btn-primary btn-sm"><i
+                                class="fa-solid fa-plus mr-1"></i>Book New</button>
+                        <a href="scheduling.html" class="btn btn-outline btn-sm">View All</a>
+                    </div>
                 </div>
                 <table>
                     <thead>
@@ -96,7 +114,7 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="apptTableBody">
                         <tr>
                             <td>Sarah Johnson</td>
                             <td>09:00 AM</td>
@@ -127,7 +145,149 @@
         </main>
     </div>
 
-    <script src="dist/client/protect.js"></script>
+    <!-- Book Appointment Modal -->
+    <div id="apptModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 class="text-xl mb-4">Book New Appointment</h3>
+            <div class="form-group mb-3">
+                <label for="newApptName" class="block text-sm text-muted mb-1">Patient Name</label>
+                <input type="text" id="newApptName" class="form-input w-full" placeholder="Enter patient name" title="Patient Name">
+            </div>
+            <div class="form-group mb-3">
+                <label for="newApptTime" class="block text-sm text-muted mb-1">Time</label>
+                <input type="time" id="newApptTime" class="form-input w-full" title="Appointment Time">
+            </div>
+            <div class="form-group mb-4">
+                <label for="newApptType" class="block text-sm text-muted mb-1">Type</label>
+                <select id="newApptType" class="form-select w-full" title="Appointment Type">
+                    <option value="Check-up">Check-up</option>
+                    <option value="Follow-up">Follow-up</option>
+                    <option value="Consultation">Consultation</option>
+                    <option value="Emergency">Emergency</option>
+                </select>
+            </div>
+            <div class="flex gap-2 justify-end">
+                <button type="button" onclick="closeApptModal()" class="btn btn-outline">Cancel</button>
+                <button type="button" onclick="saveAppt()" class="btn btn-primary">Book
+                    Now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mail Integration Modal -->
+    <div id="mailModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 class="text-xl mb-4">Open Messages</h3>
+            <p class="text-muted text-sm mb-6">Select your preferred email provider:</p>
+            <div class="flex flex-col gap-3">
+                <a href="https://mail.google.com" target="_blank" rel="noopener noreferrer" class="btn btn-outline w-full"><i class="fa-brands fa-google mr-2"></i>Gmail</a>
+                <a href="https://outlook.live.com/mail" target="_blank" rel="noopener noreferrer" class="btn btn-outline w-full"><i class="fa-brands fa-microsoft mr-2"></i>Outlook / Hotmail</a>
+                <a href="mailto:" class="btn btn-outline w-full"><i
+                        class="fa-solid fa-envelope mr-2"></i>System Default</a>
+            </div>
+            <button type="button" onclick="closeMailModal()" class="btn btn-ghost mt-4 text-sm text-muted">Close</button>
+        </div>
+    </div>
+
+    <!-- Calendar Integration Modal -->
+    <div id="calendarModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 class="text-xl mb-4">Sync / Open Calendar</h3>
+            <p class="text-muted text-sm mb-6">Select your calendar service:</p>
+            <div class="flex flex-col gap-3">
+                <a href="https://calendar.google.com" target="_blank" rel="noopener noreferrer" class="btn btn-outline w-full"><i class="fa-brands fa-google mr-2"></i>Google Calendar</a>
+                <a href="https://outlook.live.com/calendar" target="_blank" rel="noopener noreferrer" class="btn btn-outline w-full"><i class="fa-brands fa-microsoft mr-2"></i>Outlook Calendar</a>
+            </div>
+            <button type="button" onclick="closeCalendarModal()" class="btn btn-ghost mt-4 text-sm text-muted">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // --- AUTH CHECK ---
+        (function checkAuth() {
+            const token = localStorage.getItem('authToken');
+            if (!token) {
+                window.location.href = 'login.html';
+            }
+        })();
+
+        // --- DASHBOARD ACTIONS ---
+        const modal = document.getElementById('apptModal');
+        const mailModal = document.getElementById('mailModal');
+        const calendarModal = document.getElementById('calendarModal');
+        const tbody = document.getElementById('apptTableBody');
+
+        function openApptModal() {
+            modal.style.display = 'flex';
+        }
+
+        function closeApptModal() {
+            modal.style.display = 'none';
+        }
+
+        function openMailModal() {
+            mailModal.style.display = 'flex';
+        }
+
+        function closeMailModal() {
+            mailModal.style.display = 'none';
+        }
+
+        function openCalendarModal() {
+            calendarModal.style.display = 'flex';
+        }
+
+        function closeCalendarModal() {
+            calendarModal.style.display = 'none';
+        }
+
+        function saveAppt() {
+            const name = document.getElementById('newApptName').value;
+            const time = document.getElementById('newApptTime').value;
+            const type = document.getElementById('newApptType').value;
+
+            if (name && time) {
+                // Add Row
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${name}</td>
+                    <td>${formatTime(time)}</td>
+                    <td><span class="badge badge-${type.toLowerCase()}">${type}</span></td>
+                    <td>Confirmed</td>
+                    <td><a href="#" class="table-action-link">View</a></td>
+                `;
+                // Insert at top
+                tbody.insertBefore(tr, tbody.firstChild);
+
+                // Close &amp; Reset
+                closeApptModal();
+                document.getElementById('newApptName').value = '';
+                document.getElementById('newApptTime').value = '';
+            }
+        }
+
+        function formatTime(timeStr) {
+            // Simple convert 24h to 12h
+            const [hour, min] = timeStr.split(':');
+            const h = parseInt(hour);
+            const ampm = h >= 12 ? 'PM' : 'AM';
+            const h12 = h % 12 || 12;
+            return `${h12}:${min} ${ampm}`;
+        }
+
+        // Close on click outside
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                closeApptModal();
+            }
+            if (event.target == mailModal) {
+                closeMailModal();
+            }
+            if (event.target == calendarModal) {
+                closeCalendarModal();
+            }
+        }
+    </script>
 </body>
 
 </html>
