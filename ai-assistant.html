@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Medical Assistant | TeleMed Cloud</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/ai-assistant.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
@@ -47,7 +48,7 @@
 
                 <!-- Sidebar Controls -->
                 <aside aria-label="AI Capabilities" class="ai-sidebar">
-                    <h3 class="mb-2 text-xl">AI Capabilities</h3>
+                    <h3 class="text-xl">AI Capabilities</h3>
 
                     <button type="button" class="ai-mode-btn active" onclick="switchMode('symptom')">
                         <i class="fa-solid fa-stethoscope"></i>
@@ -73,7 +74,7 @@
                         </span>
                     </button>
 
-                    <div class="mt-4 p-2 bg-surface border border-glass rounded text-xs text-muted">
+                    <div class="privacy-notice">
                         <i class="fa-solid fa-shield-halved mr-1"></i>
                         <strong>Privacy Mode On:</strong> All patient data is anonymized before AI processing.
                     </div>
@@ -99,7 +100,7 @@
                         </div>
                         <div class="chat-input-area">
                             <input type="text" class="form-input" id="chatInput"
-                                placeholder="Type symptoms (e.g., 'Patient presents with acute chest pain, radiating to left arm...')">
+                                placeholder="Type symptoms (e.g., 'Patient presents with acute chest pain...')">
                             <button type="button" class="btn btn-primary" aria-label="Send Message" onclick="sendMessage()"><i
                                     class="fa-solid fa-paper-plane"></i></button>
                         </div>
@@ -109,14 +110,6 @@
                                 <i class="fa-solid fa-file-medical-pulse mr-2"></i>Generate Doctor Summary
                             </button>
                         </div>
-                        <!-- Summary Output (Hidden by default) -->
-                        <div id="summaryOutput" class="p-6 bg-glass border-t border-glass overflow-y-auto ai-summary-output">
-                            <div class="flex justify-between items-start mb-4">
-                                <h4 class="text-primary font-bold"><i class="fa-solid fa-robot mr-2"></i>Structured Medical Summary</h4>
-                                <button type="button" class="text-xs text-muted hover:text-white" onclick="document.getElementById('summaryOutput').style.display='none'" title="Close Summary"><i class="fa-solid fa-xmark"></i></button>
-                            </div>
-                            <div id="summaryText" class="text-sm line-height-relaxed text-main whitespace-pre-wrap"></div>
-                        </div>
                     </div>
 
                     <!-- 2. Image Analysis Mode -->
@@ -124,21 +117,24 @@
                         <div class="chat-header">
                             <h2 class="text-xl">Medical Image Analysis</h2>
                         </div>
-                        <div class="p-4 flex-1 flex flex-col items-center justify-center">
-                            <div class="upload-zone upload-zone-custom w-full h-full flex flex-col justify-center items-center">
-                                <i class="fa-solid fa-cloud-arrow-up icon-3xl mb-2 text-muted"></i>
+                        <div class="p-6 flex-1 flex flex-col items-center justify-center">
+                            <div class="upload-zone-custom w-full flex flex-col justify-center items-center mb-6">
+                                <i class="fa-solid fa-cloud-arrow-up icon-3xl mb-4 text-primary"></i>
                                 <h3 class="text-lg">Upload Scan or Photo</h3>
-                                <p class="text-muted mb-4">Supports DICOM, JPG, PNG (Dermoscopy, X-Ray, MRI)</p>
-                                <button type="button" class="btn btn-outline">Select Files</button>
+                                <p class="text-muted mb-6">Supports DICOM, JPG, PNG (Dermoscopy, X-Ray, MRI)</p>
+                                <button type="button" class="btn btn-primary">Select Files</button>
                             </div>
-                            <div class="mt-4 w-full">
-                                <h4 class="mb-2">Recent Analysis</h4>
-                                <div class="dashboard-card p-3 flex items-center gap-3">
-                                    <div class="analysis-thumbnail"></div>
-                                    <div>
+                            <div class="w-full">
+                                <h4 class="mb-4 font-semibold">Recent Analysis</h4>
+                                <div class="dashboard-card p-4 flex items-center gap-4 bg-glass">
+                                    <div class="analysis-thumbnail bg-surface flex items-center justify-center">
+                                        <i class="fa-solid fa-image text-muted"></i>
+                                    </div>
+                                    <div class="flex-1">
                                         <div class="font-semibold">Skin_Lesion_042.jpg</div>
                                         <div class="text-xs text-success">Low Risk (88% Confidence)</div>
                                     </div>
+                                    <button class="btn btn-ghost btn-sm" aria-label="View Analysis Details"><i class="fa-solid fa-chevron-right"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -149,30 +145,41 @@
                         <div class="chat-header">
                             <h2 class="text-xl">Signal &amp; Spectrum Reader</h2>
                         </div>
-                        <div class="p-4 flex-1">
-                            <div class="alert alert-info alert-active mb-4">
+                        <div class="p-6 flex-1">
+                            <div class="alert alert-info alert-active mb-6">
                                 <i class="fa-solid fa-circle-info mr-2"></i>
                                 <strong>Integration Active:</strong> Directly reading from NMR Tool buffer.
                             </div>
-                            <div class="dashboard-card p-4 mb-4">
-                                <h4 class="mb-2">Detected Peaks</h4>
-                                <div class="flex gap-2 mb-2">
-                                    <span class="badge badge-surface">4.2 ppm
-                                        (Lactate)</span>
-                                    <span class="badge badge-surface">2.1 ppm
-                                        (Glutamine)</span>
+                            <div class="dashboard-card p-6 mb-6 bg-glass">
+                                <h4 class="mb-4 font-semibold">Detected Peaks</h4>
+                                <div class="flex gap-2 mb-4">
+                                    <span class="badge badge-surface">4.2 ppm (Lactate)</span>
+                                    <span class="badge badge-surface">2.1 ppm (Glutamine)</span>
                                 </div>
-                                <p class="text-muted text-sm">Analysis suggests elevated lactate levels consistent with
-                                    metabolic stress.</p>
+                                <p class="text-muted text-sm leading-relaxed">Analysis suggests elevated lactate levels consistent with
+                                    metabolic stress. Recommended follow-up on cellular metabolism.</p>
                             </div>
                             <button type="button" class="btn btn-primary" onclick="window.location.href='tools.html'">Open Full
-                                Analyzer
-                                Tool</button>
+                                Analyzer Tool</button>
                         </div>
                     </div>
 
                 </div>
+
+                <!-- Summary Output (Centered Overlay) -->
+                <div id="summaryOutput" class="ai-summary-output">
+                    <div class="flex justify-between items-start mb-6">
+                        <h4 class="text-xl font-bold"><i class="fa-solid fa-robot mr-2 text-primary"></i>Structured Medical Summary</h4>
+                        <button type="button" class="btn btn-sm btn-ghost" aria-label="Close summary" onclick="document.getElementById('summaryOutput').style.display='none'"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    <div id="summaryText" class="text-sm line-height-relaxed text-main whitespace-pre-wrap bg-surface p-6 rounded-xl border border-glass"></div>
+                    <div class="mt-6 flex justify-end">
+                        <button class="btn btn-primary btn-sm" onclick="document.getElementById('summaryOutput').style.display='none'">Close</button>
+                    </div>
+                </div>
             </div>
+        </main>
+    </div>
         </main>
     </div>
 
