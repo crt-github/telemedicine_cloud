@@ -12,7 +12,7 @@ if (!JWT_SECRET) {
 }
 
 // Mock MFA Verification (Compliance Requirement)
-const verifyMFA = (userId, token) => {
+const verifyMFA = (_userId, _mfaToken) => {
     // In production, this would verify TOTP or Biometric token
     return true;
 };

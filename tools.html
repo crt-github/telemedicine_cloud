@@ -7,104 +7,6 @@
     <title>Connected Health Tools | TeleMed Cloud</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .tool-card {
-            background: linear-gradient(135deg, #1e293b 0%, #1e3a8a 100%);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 1.5rem;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .tool-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .tool-icon-wrapper {
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-        }
-
-        .icon-diabetes {
-            background: rgba(239, 68, 68, 0.1);
-            color: #ef4444;
-        }
-
-        .icon-cardio {
-            background: rgba(59, 130, 246, 0.1);
-            color: #3b82f6;
-        }
-
-        .icon-lab {
-            background: rgba(16, 185, 129, 0.1);
-            color: #10b981;
-        }
-
-        .icon-respiratory {
-            background: rgba(245, 158, 11, 0.1);
-            color: #f59e0b;
-        }
-
-        .icon-weight {
-            background: rgba(139, 92, 246, 0.1);
-            color: #8b5cf6;
-        }
-
-        .icon-sleep {
-            background: rgba(99, 102, 241, 0.1);
-            color: #6366f1;
-        }
-
-        .viz-preview {
-            height: 60px;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            margin-top: 1rem;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: flex-end;
-            gap: 2px;
-            padding: 0 5px;
-        }
-
-        .viz-bar {
-            flex: 1;
-            background: var(--primary);
-            opacity: 0.5;
-            border-radius: 2px 2px 0 0;
-        }
-
-        .live-tag {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: rgba(16, 185, 129, 0.1);
-            color: #10b981;
-            padding: 2px 8px;
-            border-radius: 99px;
-            font-size: 0.7rem;
-            border: 1px solid rgba(16, 185, 129, 0.2);
-        }
-    </style>
 </head>
 
 <body>
@@ -130,10 +32,14 @@
         </aside>
 
         <main class="main-content">
-            <div class="mb-2">
-                <h2 class="page-header-title">Connected Health &amp; IoT Data</h2>
-                <p class="text-muted">Real-time patient measurements, wearable data, and lab integrations.</p>
-            </div>
+            <header class="dashboard-header">
+                <div class="nav-container">
+                    <div class="page-title-area">
+                        <h2 class="page-header-title">Connected Health &amp; IoT Data</h2>
+                        <p class="text-sm-muted">Real-time patient measurements and lab integrations.</p>
+                    </div>
+                </div>
+            </header>
 
             <div class="tools-grid">
 

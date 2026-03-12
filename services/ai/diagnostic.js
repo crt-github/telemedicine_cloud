@@ -19,7 +19,7 @@ const runInference = (symptoms) => {
 };
 
 app.post('/ai/diagnose', (req, res) => {
-    const { patientId, symptoms } = req.body;
+    const { _patientId, symptoms } = req.body;
 
     // 1. Run AI Inference (GPU Accelerated in prod)
     const result = runInference(symptoms);

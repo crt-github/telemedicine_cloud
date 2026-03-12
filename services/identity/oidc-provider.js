@@ -14,8 +14,8 @@ const USERS = {
 };
 
 app.post('/login', (req, res) => {
-    const { email, password } = req.body;
-    const user = USERS[email];
+    const { email, password: _password } = req.body;
+    const user = Object.prototype.hasOwnProperty.call(USERS, email) ? USERS[email] : null;
 
     // Mock Password Check
     if (!user) return res.status(401).json({ error: 'Invalid User' });

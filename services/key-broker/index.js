@@ -20,9 +20,13 @@ app.post('/keys/store', (req, res) => {
 
 app.get('/keys/:recordId', (req, res) => {
     // Only authorized doctors can fetch keys
-    const wrappedKey = KEY_STORE[req.params.recordId];
-    if (!wrappedKey) return res.status(404).json({ error: 'Key not found' });
-    res.json({ wrappedKey });
+    const recordId = req.params.recordId;
+    if (Object.prototype.hasOwnProperty.call(KEY_STORE, recordId)) {
+        const wrappedKey = KEY_STORE[recordId];
+        res.json({ wrappedKey });
+    } else {
+        res.status(404).json({ error: 'Key not found' });
+    }
 });
 
 app.listen(PORT, () => {

@@ -16,13 +16,17 @@ const LICENSES = {
 
 app.get('/entitlements/:doctorId', (req, res) => {
     const doctorId = req.params.doctorId;
-    const entitlements = LICENSES[doctorId] || ['core'];
+    const entitlements = Object.prototype.hasOwnProperty.call(LICENSES, doctorId) 
+        ? LICENSES[doctorId] 
+        : ['core'];
     res.json({ modules: entitlements });
 });
 
 app.post('/verify-access', (req, res) => {
     const { doctorId, requiredModule } = req.body;
-    const entitlements = LICENSES[doctorId] || [];
+    const entitlements = Object.prototype.hasOwnProperty.call(LICENSES, doctorId)
+        ? LICENSES[doctorId]
+        : [];
 
     if (entitlements.includes(requiredModule)) {
         res.json({ access: true });

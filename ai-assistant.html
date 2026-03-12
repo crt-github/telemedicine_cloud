@@ -7,149 +7,6 @@
     <title>AI Medical Assistant | TeleMed Cloud</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* AI Layout Specifics */
-        .ai-layout {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 2rem;
-            height: 100%;
-        }
-
-        .ai-sidebar {
-            background: linear-gradient(135deg, #1e293b 0%, #172554 50%, #155e75 100%);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 1.5rem;
-            height: fit-content;
-        }
-
-        .ai-mode-btn {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            width: 100%;
-            padding: 1rem;
-            border: none;
-            background: transparent;
-            color: var(--text-muted);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-align: left;
-            margin-bottom: 0.5rem;
-        }
-
-        .ai-mode-btn:hover,
-        .ai-mode-btn.active {
-            background: rgba(37, 99, 235, 0.1);
-            color: var(--primary);
-        }
-
-        .ai-workspace {
-            background: linear-gradient(135deg, #1e293b 0%, #172554 50%, #155e75 100%);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            height: calc(100vh - 200px);
-            /* Reduced to prevent overlap */
-            min-height: 500px;
-        }
-
-        .chat-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid var(--glass-border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .chat-messages {
-            flex: 1;
-            padding: 1.5rem;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .message {
-            max-width: 80%;
-            padding: 1rem 1.5rem;
-            border-radius: 16px;
-            line-height: 1.5;
-        }
-
-        .message.ai {
-            align-self: flex-start;
-            background: rgba(255, 255, 255, 0.05);
-            border-bottom-left-radius: 4px;
-        }
-
-        .message.user {
-            align-self: flex-end;
-            background: var(--primary);
-            color: white;
-            border-bottom-right-radius: 4px;
-        }
-
-        .chat-input-area {
-            padding: 1.5rem;
-            border-top: 1px solid var(--glass-border);
-            background: rgba(0, 0, 0, 0.2);
-            display: flex;
-            gap: 1rem;
-        }
-
-        /* Drag Access */
-        .drop-zone {
-            display: none;
-            /* Active only in IMG mode */
-            border: 2px dashed var(--glass-border);
-            border-radius: 12px;
-            padding: 2rem;
-            text-align: center;
-            margin: 1rem;
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        .mode-section {
-            display: none;
-        }
-
-        .mode-section.active {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        /* Replaced Inline Styles */
-        .upload-zone-custom {
-            border: 2px dashed var(--glass-border);
-            border-radius: 12px;
-            height: 300px;
-        }
-
-        .analysis-thumbnail {
-            width: 50px;
-            height: 50px;
-            background: #333;
-            border-radius: 8px;
-        }
-
-        .alert-active {
-            background: rgba(37,99,235,0.1);
-            padding: 1rem;
-            border-radius: 8px;
-        }
-
-        .badge-surface {
-            background: var(--surface);
-            border: 1px solid var(--glass-border);
-        }
-    </style>
 </head>
 
 <body>
@@ -177,10 +34,14 @@
 
         <!-- Main Content -->
         <main class="main-content">
-            <div class="mb-2">
-                <h2 class="page-header-title">AI Medical Assistant</h2>
-                <p class="text-muted">Diagnostic decision support, medical imaging analysis, and signal processing.</p>
-            </div>
+            <header class="dashboard-header">
+                <div class="nav-container">
+                    <div class="page-title-area">
+                        <h2 class="page-header-title">AI Medical Assistant</h2>
+                        <p class="text-sm-muted">Diagnostic decision support, medical imaging analysis, and signal processing.</p>
+                    </div>
+                </div>
+            </header>
 
             <div class="ai-layout">
 

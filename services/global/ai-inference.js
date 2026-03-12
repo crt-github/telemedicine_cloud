@@ -7,7 +7,7 @@ const PORT = 5001; // Global Zone Port
 
 // AI Inference Engine (Unaware of Real Identity)
 app.post('/ai/predict', (req, res) => {
-    const { anonId, age, medicalHistory } = req.body;
+    const { anonId, age, _medicalHistory } = req.body;
 
     console.log(`[GLOBAL-CLOUD] Processing anonymous payload: ${anonId}, Age: ${age}`);
 

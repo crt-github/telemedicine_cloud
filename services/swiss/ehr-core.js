@@ -1,6 +1,6 @@
 // services/swiss/ehr-core.js
 const express = require('express');
-const axios = require('axios');
+// const axios = require('axios');
 const { anonymizePatient } = require('../bridge/anonymizer');
 const app = express();
 app.use(express.json());
@@ -30,7 +30,7 @@ app.post('/callback/analysis', (req, res) => {
 // Outbound: Request AI Analysis (Triggers Anonymization Bridge)
 app.post('/request-analysis', async (req, res) => {
     const { patientId } = req.body;
-    const patient = PATIENTS[patientId];
+    const patient = Object.prototype.hasOwnProperty.call(PATIENTS, patientId) ? PATIENTS[patientId] : null;
 
     if (!patient) return res.status(404).json({ error: 'Patient not found' });
 

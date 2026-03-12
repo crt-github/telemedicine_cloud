@@ -7,7 +7,7 @@ const PORT = 3006;
 
 // IoT Data Ingestion Endpoint
 app.post('/iot/ingest', (req, res) => {
-    const { deviceId, patientId, dataType, value } = req.body;
+    const { _deviceId, _patientId, dataType, value } = req.body;
 
     // 1. Validate Device Signature (Security)
     if (!req.headers['x-device-signature']) {

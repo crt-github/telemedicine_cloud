@@ -1,9 +1,10 @@
 const fs = require('fs');
-const path = require('path');
+// const path = require('path');
 
 const dir = 'c:\\Users\\tcori\\telemedicine';
 
 function fixHtmlFile(filePath) {
+    // eslint-disable-next-line security/detect-non-literal-fs-filename
     let content = fs.readFileSync(filePath, 'utf8');
     let original = content;
 
@@ -22,17 +23,20 @@ function fixHtmlFile(filePath) {
     }
 
     if (content !== original) {
+        // eslint-disable-next-line security/detect-non-literal-fs-filename
         fs.writeFileSync(filePath, content, 'utf8');
         console.log(`Fixed ${filePath}`);
     }
 }
 
-function walk(dir) {
+function walk(dirPath) {
     let results = [];
-    const list = fs.readdirSync(dir);
+    // eslint-disable-next-line security/detect-non-literal-fs-filename
+    const list = fs.readdirSync(dirPath);
     list.forEach(function(file) {
         if (file === 'node_modules' || file === 'dist' || file.startsWith('.')) return;
-        file = dir + '\\' + file;
+        file = dirPath + '\\' + file;
+        // eslint-disable-next-line security/detect-non-literal-fs-filename
         const stat = fs.statSync(file);
         if (stat && stat.isDirectory()) { 
             results = results.concat(walk(file));

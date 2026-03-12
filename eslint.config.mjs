@@ -16,7 +16,9 @@ export default [
             sourceType: "module"
         },
         rules: {
-            // Custom rule adjustments if needed
+            "no-unused-vars": ["error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }],
+            "no-undef": "error",
+            "security/detect-object-injection": "off" // Handled via manual audit for prototype
         }
     }
 ];

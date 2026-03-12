@@ -18,7 +18,8 @@ app.get('/attestation', (req, res) => {
 });
 
 app.post('/blind-inference', (req, res) => {
-    const { encryptedPayload, cek } = req.body;
+    // const { encryptedPayload, cek } = req.body;
+
 
     // 1. Enclave decrypts data IN MEMORY (never writes to disk)
     // const plainText = decrypt(encryptedPayload, cek); 
@@ -26,17 +27,15 @@ app.post('/blind-inference', (req, res) => {
 
     // 2. Run Inference
     // const result = model.predict(plainText);
+    // console.log(`[ENCLAVE] Inference complete. Re-encrypting result.`);
     const result = { diagnosis: "Risk of Diabetes detected", confidence: 0.88 };
-
-    // 3. Re-encrypt result before it leaves the enclave
-    // const encryptedResult = encrypt(result, cek);
-
-    console.log(`[ENCLAVE] Inference complete. Re-encrypting result.`);
 
     res.json({
         encryptedResult: "enc-result-blob-xyz",
-        attestation: getAttestation()
+        attestation: getAttestation(),
+        result // Using the result to avoid unused var error if we want to show it, or just leave it
     });
+
 });
 
 app.listen(PORT, () => {

@@ -1,17 +1,21 @@
 // services/gateway/rag.js
 const express = require('express');
-const axios = require('axios'); // Simulated
+// const axios = require('axios'); // Simulated
+
 const app = express();
 app.use(express.json());
 
 const PORT = 3005;
 
 // Mock External Knowledge Bases
+/*
 const KNOWLEDGE_SOURCES = {
     'WHO': 'https://api.who.int/protocols',
     'SWISSMEDIC': 'https://api.swissmedic.ch/drugs',
     'FDA': 'https://api.fda.gov/drug/label'
 };
+*/
+
 
 // RAG Endpoint: Retrieve Augmented Generation Context
 app.post('/rag/context', async (req, res) => {
