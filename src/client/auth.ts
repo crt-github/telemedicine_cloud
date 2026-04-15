@@ -1,13 +1,7 @@
 // MOCK AUTHENTICATION FOR LOCAL TESTING (File Protocol)
 // const API_URL = 'http://localhost:5000/api/auth'; // Disabled for mock
 
-interface AuthResponse {
-    token: string;
-    name: string;
-    email: string;
-    role: string;
-    message?: string;
-}
+// AuthResponse interface removed as it is not used in the mock auth.
 
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('loginForm') as HTMLFormElement | null;

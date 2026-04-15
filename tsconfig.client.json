@@ -9,9 +9,11 @@
         "types": [],
         "strict": true,
         "rootDir": "./src/client",
-        "resolveJsonModule": false
+        "resolveJsonModule": false,
+        "jsx": "react"
     },
     "include": [
-        "src/client/**/*"
+        "src/client/**/*",
+        "client/**/*"
     ]
 }

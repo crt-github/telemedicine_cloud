@@ -1,6 +1,4 @@
 const crypto = require('crypto');
-const fs = require('fs');
-const path = require('path');
 
 const mappingDB = require('./mapping_db');
 
@@ -56,7 +54,10 @@ const sanitizeRecordForAI = (rawRecord) => {
         
         // Example: naive replacement of the patient's name if they appear in notes
         if (rawRecord.name) {
-            const nameRegex = new RegExp(rawRecord.name, 'gi');
+            // Escape special regex characters in the user's name
+            const escapedName = rawRecord.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            // eslint-disable-next-line security/detect-non-literal-regexp
+            const nameRegex = new RegExp(escapedName, 'gi');
             notes = notes.replace(nameRegex, pseudonym);
         }
         
@@ -92,7 +93,9 @@ const reIdentifyResult = (aiText) => {
     // Find all Patient_XXXX patterns and replace them
     for (const [pseudonym, realInfo] of Object.entries(reverseMappings)) {
         if (reIdentifiedText.includes(pseudonym)) {
-            const aliasRegex = new RegExp(pseudonym, 'g');
+            const escapedPseudonym = pseudonym.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            // eslint-disable-next-line security/detect-non-literal-regexp
+            const aliasRegex = new RegExp(escapedPseudonym, 'g');
             // We append a small badge [AI] so the doctor knows this was originally a pseudonym
             reIdentifiedText = reIdentifiedText.replace(aliasRegex, `${realInfo.name}`);
         }

@@ -10,5 +10,14 @@ module "swiss_cell" {
 # Specific Compliance Rule: Backup Retention
 resource "aws_backup_plan" "swiss_retention" {
   name = "swiss-10y-retention"
-  # ... Config to keep backups in Zurich for 10 years ...
+
+  rule {
+    rule_name         = "swiss-10y-retention-rule"
+    target_vault_name = "Default"
+    schedule          = "cron(0 12 * * ? *)"
+
+    lifecycle {
+      delete_after = 3650
+    }
+  }
 }

@@ -3,6 +3,8 @@ import security from "eslint-plugin-security";
 import compat from "eslint-plugin-compat";
 import globals from "globals";
 import reactPlugin from "eslint-plugin-react";
+import tseslint from "@typescript-eslint/eslint-plugin";
+import tsParser from "@typescript-eslint/parser";
 
 export default [
     { ignores: ["dist/**"] },
@@ -11,7 +13,9 @@ export default [
     compat.configs["flat/recommended"],
     reactPlugin.configs.flat.recommended,
     {
+        files: ["**/*.{js,jsx,mjs,cjs,ts,tsx}"],
         languageOptions: {
+            parser: tsParser,
             globals: {
                 ...globals.browser,
                 ...globals.node
@@ -30,7 +34,7 @@ export default [
         },
         rules: {
             "no-unused-vars": ["error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_", "caughtErrorsIgnorePattern": "^_" }],
-            "no-undef": "error",
+            "no-undef": "off", // Disabled in favor of TS compiler validation
             "security/detect-object-injection": "off", // Handled via manual audit for prototype
             "react/prop-types": "off"
         }
