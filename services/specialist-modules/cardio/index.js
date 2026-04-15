@@ -18,7 +18,7 @@ const requireCardioLicense = async (req, res, next) => {
             doctorId, requiredModule: 'module-cardio'
         });
         if (check.data.access) next();
-    } catch (_e) {
+    } catch {
         res.status(403).json({ error: 'License Check Failed: Upgrade to Cardiology Pack' });
     }
 };

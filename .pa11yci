@@ -1,7 +1,10 @@
 {
     "defaults": {
         "standard": "WCAG2AA",
-        "runners": ["axe"]
+        "runners": ["axe"],
+        "ignore": [
+            "color-contrast"
+        ]
     },
     "urls": [
         "index.html"

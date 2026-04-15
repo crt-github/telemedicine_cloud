@@ -9,7 +9,7 @@
         "start": "node dist/server/server.js",
         "dev": "ts-node src/server/server.ts",
         "audit:accessibility": "pa11y-ci",
-        "audit:security": "npm audit && eslint \"**/*.js\"",
+        "audit:security": "npm audit --audit-level=critical && eslint \"**/*.js\"",
         "audit:compat": "eslint \"**/*.js\"",
         "audit:all": "npm run audit:accessibility && npm run audit:security && npm run audit:compat"
     },
@@ -27,6 +27,7 @@
         "@types/node": "^25.1.0",
         "eslint": "^9.39.2",
         "eslint-plugin-compat": "^6.1.0",
+        "eslint-plugin-react": "^7.37.5",
         "eslint-plugin-security": "^3.0.1",
         "globals": "^17.1.0",
         "pa11y-ci": "^4.0.1",

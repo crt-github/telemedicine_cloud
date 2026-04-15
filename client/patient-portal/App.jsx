@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 export default function PatientDashboard() {
-    const [appointments, setAppointments] = useState([
+    const [appointments] = useState([
         { id: 'apt-123', doctor: 'Dr. Smith', time: '2023-11-25 10:00', status: 'scheduled' }
     ]);
 

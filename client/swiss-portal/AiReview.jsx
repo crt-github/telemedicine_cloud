@@ -1,5 +1,5 @@
 // client/swiss-portal/AiReview.js
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 // Mock Data Source (In prod: Fetch from Swiss EHR Core)
 const MOCK_ALERTS = [
