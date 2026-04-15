@@ -3,7 +3,7 @@ import security from "eslint-plugin-security";
 import compat from "eslint-plugin-compat";
 import globals from "globals";
 import reactPlugin from "eslint-plugin-react";
-import tseslint from "@typescript-eslint/eslint-plugin";
+
 import tsParser from "@typescript-eslint/parser";
 
 export default [
