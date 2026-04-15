@@ -1,0 +1,10 @@
+{
+  "clinicalNotes": "Dr. Aris says Patient_50F6 is fine.",
+  "pseudonym": "Patient_50F6",
+  "_securityMetadata": {
+    "sanitizedForAI": true,
+    "timestamp": "2026-04-15T14:35:25.501Z",
+    "version": "1.0",
+    "warning": "SHADOW COPY: Not for legal medical use without re-identification."
+  }
+}

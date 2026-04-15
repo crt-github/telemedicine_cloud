@@ -185,6 +185,85 @@
             max-width: 500px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
         }
+
+        /* NotebookLM Floating Widget */
+        .ai-floating-widget {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 400px;
+            height: 600px;
+            background: rgba(15, 23, 42, 0.95);
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--primary);
+            border-radius: 20px;
+            display: none;
+            flex-direction: column;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+            z-index: 2000;
+            overflow: hidden;
+            animation: slideInUp 0.3s ease;
+        }
+
+        @keyframes slideInUp {
+            from { transform: translateY(100%) scale(0.9); opacity: 0; }
+            to { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+        .ai-widget-header {
+            background: var(--gradient-main);
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ai-widget-body {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .ai-widget-footer {
+            padding: 1rem;
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Custom Switch */
+        .switch-custom {
+            position: relative;
+            display: inline-block;
+            width: 34px;
+            height: 20px;
+        }
+
+        .switch-custom input { opacity: 0; width: 0; height: 0; }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: .4s;
+            border-radius: 20px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 14px; width: 14px;
+            left: 3px; bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider { background-color: var(--primary); }
+        input:checked + .slider:before { transform: translateX(14px); }
     </style>
 </head>
 
@@ -288,8 +367,55 @@
         </div>
     </div>
 
+    <!-- AI Floating Widget -->
+    <div id="aiWidget" class="ai-floating-widget">
+        <div class="ai-widget-header">
+            <span class="font-bold"><i class="fa-solid fa-robot mr-2"></i>NotebookLM Synthesis</span>
+            <button class="btn btn-xs btn-ghost" onclick="toggleNotebookLM()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="ai-widget-body" id="aiWidgetBody">
+            <div class="message ai mb-4 p-3 bg-surface rounded-lg text-sm border border-glass">
+                Hello Dr. Smith. I am connected to the <strong>Swiss Cardiology 2026</strong> library. How can I assist you with clinical synthesis today?
+            </div>
+        </div>
+        <div class="ai-widget-footer">
+            <input type="text" class="form-input flex-1 text-sm" placeholder="Ask your library..." id="aiWidgetInput">
+            <button class="btn btn-primary btn-sm" onclick="sendWidgetMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+    </div>
+
     <!-- Auth Check &amp; Data -->
     <script>
+        // Toggle AI Widget
+        function toggleNotebookLM() {
+            const widget = document.getElementById('aiWidget');
+            widget.style.display = (widget.style.display === 'flex') ? 'none' : 'flex';
+        }
+
+        function sendWidgetMessage() {
+            const input = document.getElementById('aiWidgetInput');
+            const body = document.getElementById('aiWidgetBody');
+            
+            if (input.value.trim()) {
+                // User Message
+                const userMsg = document.createElement('div');
+                userMsg.className = 'message user mb-4 p-3 bg-primary rounded-lg text-sm text-right text-white ml-8';
+                userMsg.textContent = input.value;
+                body.appendChild(userMsg);
+                
+                // Mock AI Response
+                setTimeout(() => {
+                    const aiMsg = document.createElement('div');
+                    aiMsg.className = 'message ai mb-4 p-3 bg-surface rounded-lg text-sm border border-glass mr-8';
+                    aiMsg.innerHTML = "<em>Analyzing Swiss Cardiology library...</em><br><br>Based on latest SGK guidelines, the recommended approach for this case involves...";
+                    body.appendChild(aiMsg);
+                    body.scrollTop = body.scrollHeight;
+                }, 1000);
+                
+                input.value = '';
+                body.scrollTop = body.scrollHeight;
+            }
+        }
         // --- AUTH CHECK ---
         (function checkAuth() {
             const token = localStorage.getItem('authToken');

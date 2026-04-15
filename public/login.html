@@ -208,7 +208,7 @@
             if (code.length >= 3 && pendingToken) {
                 // Success
                 localStorage.setItem('authToken', pendingToken);
-                window.location.href = 'dashboard.html';
+                window.location.href = '/dashboard.html';
             } else {
                 showError('Invalid MFA Code');
             }
@@ -218,7 +218,7 @@
         function bypassMfa() {
             if (pendingToken) {
                 localStorage.setItem('authToken', pendingToken);
-                window.location.href = 'dashboard.html';
+                window.location.href = '/dashboard.html';
             }
         }
 
@@ -246,7 +246,7 @@
             setTimeout(() => {
                 // Success
                 localStorage.setItem('authToken', pendingToken);
-                window.location.href = 'dashboard.html';
+                window.location.href = '/dashboard.html';
             }, 1000);
         }
 
@@ -264,7 +264,7 @@
 
             setTimeout(() => {
                 localStorage.setItem('authToken', pendingToken);
-                window.location.href = 'dashboard.html';
+                window.location.href = '/dashboard.html';
             }, 1500);
         }
 

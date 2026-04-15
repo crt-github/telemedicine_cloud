@@ -149,10 +149,104 @@
                         </div>
                     </div>
 
-                    <div class="form-actions">
+                    <div class="form-actions mb-8">
                         <button type="submit" class="btn btn-primary">Save Complete Record</button>
                         <button type="button" class="btn btn-outline" onclick="resetForm()">Cancel</button>
                     </div>
+
+                    <div class="section-divider"></div>
+
+                    <!-- --- 10-Year Clinical Timeline --- -->
+                    <div class="flex-between-center-mb-1 flex-header-wrap">
+                        <h3 class="form-section-title no-margin">3. 10-Year Clinical Timeline</h3>
+                        <div class="flex gap-3 items-center">
+                             <button type="button" id="syncBtn" onclick="syncPatientToAI('1')" class="btn btn-primary btn-xs bg-success border-success">
+                                <i class="fa-solid fa-cloud-arrow-up mr-1"></i>Push to AI Library
+                             </button>
+                             <span class="badge badge-success text-xs"><i class="fa-solid fa-robot mr-1"></i>AI Enhanced View</span>
+                        </div>
+                    </div>
+                    <p class="text-sm-muted mb-4">Historical patient data indexed via NotebookLM for accelerated diagnostics.</p>
+
+                    <div class="clinical-timeline">
+                        <!-- Timeline Item 2026 -->
+                        <div class="timeline-item">
+                            <div class="timeline-date">2026</div>
+                            <div class="timeline-content dashboard-card bg-glass-dark border-primary">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h4 class="font-bold text-main">Current Consultation</h4>
+                                    <span class="text-xs text-muted">Active</span>
+                                </div>
+                                <div class="text-sm mb-3">Patient reports acute palpitations and fatigue.</div>
+                                <div class="ai-synthesis-box p-2 bg-primary-transparent border-primary border-dashed rounded text-xs mb-2">
+                                     <strong><i class="fa-solid fa-sparkles"></i> NotebookLM Synthesis:</strong> 
+                                     Comparing with 2022 stress test results; symptoms show 15% deviation from baseline. Recommend immediate NMR.
+                                </div>
+                                <div class="flex gap-2">
+                                    <span class="badge badge-sm badge-outline">EKG</span>
+                                    <span class="badge badge-sm badge-outline">Blood Work</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Timeline Item 2022 -->
+                        <div class="timeline-item">
+                            <div class="timeline-date">2022</div>
+                            <div class="timeline-content dashboard-card bg-glass">
+                                <h4 class="font-bold text-main">Cardiac Stress Test</h4>
+                                <div class="text-sm mb-2">Normal sinus rhythm. Occasional PVCs noted during recovery phase.</div>
+                                <div class="text-xs text-muted">Dr. Aris (Cardiology Dept)</div>
+                            </div>
+                        </div>
+
+                        <!-- Timeline Item 2018 -->
+                        <div class="timeline-item">
+                            <div class="timeline-date">2018</div>
+                            <div class="timeline-content dashboard-card bg-glass opacity-70">
+                                <h4 class="font-bold text-main">Routine Checkup</h4>
+                                <div class="text-sm mb-2">Baseline vitals recorded. Cholesterol levels borderline high.</div>
+                                <div class="text-xs text-muted">Regional Hospital Swiss Cell</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <style>
+                        .clinical-timeline {
+                            position: relative;
+                            padding-left: 2rem;
+                            border-left: 2px solid var(--glass-border);
+                            margin-top: 1.5rem;
+                            margin-bottom: 3rem;
+                        }
+                        .timeline-item {
+                            position: relative;
+                            margin-bottom: 2rem;
+                        }
+                        .timeline-item::before {
+                            content: "";
+                            position: absolute;
+                            left: calc(-2rem - 6px);
+                            top: 10px;
+                            width: 10px;
+                            height: 10px;
+                            border-radius: 50%;
+                            background: var(--primary);
+                            border: 2px solid white;
+                            z-index: 1;
+                        }
+                        .timeline-date {
+                            font-weight: 800;
+                            color: var(--primary);
+                            font-size: 0.8rem;
+                            margin-bottom: 0.5rem;
+                        }
+                        .bg-primary-transparent {
+                            background: rgba(37, 99, 235, 0.1);
+                        }
+                        .border-dashed {
+                            border-style: dashed !important;
+                        }
+                    </style>
                 </form>
             </div>
         </main>
@@ -170,6 +264,40 @@
         function resetForm() {
             document.getElementById('patientForm').reset();
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        async function syncPatientToAI(id) {
+            const btn = document.getElementById('syncBtn');
+            const originalHTML = btn.innerHTML;
+            
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> Syncing...';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch(`/api/patient/${id}/ai-preview`);
+                const data = await response.json();
+
+                if (data.success) {
+                    btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i> Synced to AI';
+                    btn.className = "btn btn-xs btn-primary"; // Change color to deep blue
+                    
+                    alert(`✅ Synchronization Successful!\n\nShadow Copy created: ${data.syncPath}\nIdentity Pseudonym: ${data.pseudonym}\n\nNotebookLM is now analyzing the record.`);
+                } else {
+                    throw new Error(data.message);
+                }
+            } catch (err) {
+                console.error(err);
+                btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation mr-1"></i> Error';
+                btn.className = "btn btn-xs btn-outline bg-error";
+                alert("Failed to sync with AI Library: " + err.message);
+            } finally {
+                // Keep the success state for a while before resetting
+                setTimeout(() => {
+                    btn.innerHTML = originalHTML;
+                    btn.disabled = false;
+                    btn.className = "btn btn-primary btn-xs bg-success border-success";
+                }, 5000);
+            }
         }
     </script>
 </body>
